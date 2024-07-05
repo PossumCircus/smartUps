@@ -17,7 +17,6 @@ const themePersistConfig = {
   storage,
 };
 
-//리듀서 추가는 여기에 추가 rootReducer에서 합쳐서 내려야함
 const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersReducer),
   theme: persistReducer(themePersistConfig, themeReducer),

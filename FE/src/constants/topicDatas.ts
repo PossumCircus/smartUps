@@ -5,11 +5,7 @@ export const topicDatas = [
   },
   {
     value: "community-ask",
-    label: "창업질문",
-  },
-  {
-    value: "community-comment",
-    label: "예비 창업자들에게 한마디",
+    label: "창업 질문",
   },
   {
     value: "community-freeBoard",

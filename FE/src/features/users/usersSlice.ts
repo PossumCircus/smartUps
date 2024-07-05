@@ -6,7 +6,7 @@ const initialState: UsersStateType = {
   entities: [] as UserDataType[],
   loginUser: null,
   status: "idle",
-  error: null as string | null,
+  error: null
 };
 
 export const usersSlice = createSlice({
@@ -23,8 +23,9 @@ export const usersSlice = createSlice({
         state.entities.push(action.payload);
       }
     },
-    clearUser() {
-      return initialState;
+    clearUser(state, action) {
+      // state.loginUser = null;
+      return initialState
     },
   },
   extraReducers: (builder) => {

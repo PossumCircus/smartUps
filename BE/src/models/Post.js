@@ -9,12 +9,12 @@ const postSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    maxlength: 50, // Adjust limit as needed
+    maxlength: 50, 
   },
   content: {
     type: String,
     required: true,
-    maxlength: 1000, // Adjust limit as needed
+    maxlength: 1000, 
   },
   hashtags: [
     {
@@ -27,8 +27,8 @@ const postSchema = new mongoose.Schema({
   },
   topic: {
     type: String,
-    required: true, // Make it required if appropriate
-    maxlength: 50, // Optional character limit
+    required: true, 
+    maxlength: 50,
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
