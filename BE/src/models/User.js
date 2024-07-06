@@ -53,7 +53,7 @@ const userSchema = new mongoose.Schema({
     }
   ],
   notificationsCount: {
-    type: number,
+    type: Number,
     default: 0
   },
   notificationAlarmState: {

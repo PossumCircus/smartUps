@@ -3,9 +3,10 @@ import { UserDataType, UsersStateType } from '../../types/usersType'; // Ensure 
 
 export const selectAllUsers = (state: RootState): UserDataType[] => state.users.entities;
 
-// 특정 유저에 대한 정보를 불러오는 셀렉터. unique property로 불러와야함.
-// export const selectSingleUserById = (state: RootState, userId: string): UserData | undefined =>
-//     state.users.entities.find((user) => user._id === userId);
+export const selectSingleUserById = (state: RootState, userId: string): UserDataType | undefined =>
+    state.users.entities.find((user) => user._id === userId);
+
+export const selectLoginUser = (state: RootState): UserDataType | null => state.users.loginUser
 
 export const usersStatus = (state: RootState): UsersStateType["status"] => state.users.status;
 

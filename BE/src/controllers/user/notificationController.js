@@ -58,7 +58,7 @@ exports.addNotifications = async (req, res, next) => {
     }
 }
 
-exports.checkNotifications = async (req, res, next) => {
+exports.removeNotifications = async (req, res, next) => {
     try {
         const { checkedNotificationData } = req.body
         const user = await User.findById(req.body.loginId).populate('notifications')

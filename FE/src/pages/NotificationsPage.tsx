@@ -1,7 +1,6 @@
-import NotificationsContainer from "../containers/user/notifications/NotificationsContainer"
-
+import { NotificationsList } from "../features/notifications"
 export default function NotificationsPage() {
     return (
-        <NotificationsContainer />
+        <NotificationsList />
     )
 }
