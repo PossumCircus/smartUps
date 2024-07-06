@@ -39,8 +39,7 @@ export interface SignUpFormDataType {
   password_confirm: string;
   email: string;
   username: string;
-  // job: string;
-  // region: string;아직안씀
+  // region: string;
 }
 
 export interface LoginFormDataType {

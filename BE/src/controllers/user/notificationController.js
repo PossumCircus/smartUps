@@ -13,13 +13,12 @@ exports.getNotifications = async (req, res, next) => {
     }
 }
 
-// Utility function to send a notification to a user
-exports.sendNotification = async (userId, notificationType, link) => {
-    await Notification.create({
-        recipient: userId,
-        notificationType,
-        link
-    });
+// Utility function to send a notification to a user and add notification to Notification db
+exports.sendNotification = async (req, res, next) => {
+    const { notificationData } = req.body
+    const userId = notificationData.recipient
+
+    await Notification.create(notificationData);
 
     // Optional: If you want a new notification indicator on the User 
     await User.findByIdAndUpdate(userId, { $inc: { newNotificationsCount: 1 } });
@@ -92,7 +91,7 @@ exports.setNotificationsAlarmState = async (req, res, next) => {
         user.notificationAlarmState.commentLikes = alarmState.commentLikesState
         user.notificationAlarmState.commentNewReplies = alarmState.commentNewRepliesState
         user.notificationAlarmState.chat = alarmState.chatState
-        
+
         await user.save()
 
         res.send(201).json({
