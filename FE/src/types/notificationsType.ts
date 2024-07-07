@@ -4,7 +4,7 @@ export interface NotificationDataType {
     sender?: string; // Optional User ID as string or oid from DB
     notificationType: 'post_new_comment'| 'post_like'| 'comment_new_reply'| 'chat';
     link?: string; // Optional link 
-    isNew: boolean;
+    isNewOne: boolean;
     isRead: boolean;
     createdAt: string; // ISO date string
 }

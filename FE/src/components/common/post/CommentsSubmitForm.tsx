@@ -5,10 +5,12 @@ import { createComment, createReplyComment, editComment } from "../../../feature
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { Box, TextField, Button, Typography } from "@mui/material";
+import { createNotification } from '../../../features/notifications';
 
 type CommentsSubmitFormPropsType = {
   isReplyComment?: boolean;
   isEditingComment?: boolean;
+  commentAuthor? : string;
   prevComment?: string;
   targetCommentId?: string
 }
@@ -16,6 +18,7 @@ type CommentsSubmitFormPropsType = {
 const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
   isReplyComment,
   isEditingComment,
+  commentAuthor,
   prevComment,
   targetCommentId
 }) => {
@@ -52,6 +55,7 @@ const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
       dispatch(createComment({ postId, author: loginUser!.id, content }))
       // 등록 후 입력 필드 초기화
       setContent("");
+
     }
   };
 
@@ -65,6 +69,13 @@ const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
         content
       }))
       setContent('');
+      dispatch(createNotification({
+        recipient : commentAuthor as string,
+        sender: loginUser!.id,
+        isNewOne : true,
+        isRead : false,
+        notificationType : 'comment_new_reply'
+      }))
     }
   };
 

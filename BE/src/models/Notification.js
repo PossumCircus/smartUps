@@ -15,7 +15,7 @@ const notificationSchema = new mongoose.Schema({
         enum: ['post_new_comment', 'post_like', 'comment_new_reply', 'chat']
     },
     link: { type: String },
-    isNew: { type: Boolean, default: true },
+    isNewOne: { type: Boolean, default: true },
     isRead: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
 });

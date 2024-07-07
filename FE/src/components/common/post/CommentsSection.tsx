@@ -99,7 +99,7 @@ const CommentsSection: React.FC<CommentsSectionPropsType> = ({
                                 <Typography sx={{ minHeight: '10dvh' }}>{comment.content}</Typography>
                             </Box>
                             {
-                                replyFormStates[comment._id] && <CommentsSubmitForm isReplyComment={isReplyComment} targetCommentId={comment._id} />
+                                replyFormStates[comment._id] && <CommentsSubmitForm isReplyComment={isReplyComment} targetCommentId={comment._id} commentAuthor={comment.author!._id}/>
                             }
                             {
                                 editFormStates[comment._id] && <CommentsSubmitForm isEditingComment={isEditingComment} targetCommentId={comment._id} prevComment={comment.content} />
@@ -110,7 +110,7 @@ const CommentsSection: React.FC<CommentsSectionPropsType> = ({
                                     return (
                                         <Box className="postDetail:main:bottom:comments[replyComment]" sx={{ display: 'flex', flexDirection: 'row' }} key={reply._id}>
                                             <RepliedCommentIcon sx={{ transform: 'scaleX(-1) scaleX(0.8)', color: 'grey' }} />
-                                            <Box className={`my-1 border-l-2 ${comment.author._id === loginToken?.id ? 'border-blue-400' : 'border-gray-400'} bg-gradient-to-tr from-slate-100 to-slate-white`}
+                                            <Box className={`my-1 border-l-2 ${reply.author?._id === loginToken?.id ? 'border-blue-400' : 'border-gray-400'} bg-gradient-to-tr from-slate-100 to-slate-white`}
                                                 sx={{ mb: 1, pl: 2, pb: 3, display: 'flex', flexDirection: 'column', width: '100%' }}>
                                                 <Box className="postDetail:main:bottom:comments[replyComment]:authorInfo" sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
                                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, borderBottom: '1px solid #CCCCCC', width: '100%', pb: 1 }}>

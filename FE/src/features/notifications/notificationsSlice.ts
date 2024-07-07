@@ -19,10 +19,20 @@ const notificationsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchNotifications.fulfilled, (state, action: PayloadAction<NotificationDataType[]>) => {
+        console.log('fulfilled', action.payload)
         state.entities.push(...action.payload);
-        state.entities.forEach(notification => notification.isNew = !notification.isRead)
+        state.entities.forEach(notification => notification.isNewOne = !notification.isRead)
         state.entities.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-      });
+      })
+      .addCase(fetchNotifications.pending, (state, action) => {
+        console.log('pending', action.payload)
+        state.status = 'loading'
+      })
+      .addCase(fetchNotifications.rejected, (state, action) => {
+        console.log('rejected', action.payload)
+        state.status = 'failed'
+        state.error = "not found notifications(temporal custom error)"
+      })
   }
 });
 export const { setAllNotificationsRead } = notificationsSlice.actions

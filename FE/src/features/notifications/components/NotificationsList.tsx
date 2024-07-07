@@ -3,8 +3,15 @@ import { useSelector, useDispatch } from "react-redux"
 import { formatDistanceToNow, parseISO } from "date-fns"
 
 import { selectAllUsers } from "../../users"
-import { selectAllNotifications, notificationsStatus, notificationsError, fetchNotifications } from "../index"
+import {
+  selectAllNotifications,
+  notificationsStatus,
+  notificationsError,
+  fetchNotifications,
+  createNotification
+} from "../index"
 import { AppDispatch } from "../../../app/store"
+import { CreateNotificationDataType } from '../notificationsAsyncThunks'
 
 const NotificationsList: React.FC<any> = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,7 +26,21 @@ const NotificationsList: React.FC<any> = () => {
     }
   }, [statusState, dispatch])
 
-  if (notifications.length < 1) return <div>새로운 알림이 없습니다.</div>
+  const creationData: CreateNotificationDataType = {
+    recipient: '6689f97d26a4b7f0d81a7824',
+    sender: '668a193f532e4531792534e2',
+    notificationType: 'comment_new_reply',
+    isNewOne: true,
+    isRead: false
+  }
+
+  if (notifications.length < 1) return (
+    <>
+      <div>새로운 알림이 없습니다.</div>
+      {/* <div onClick={() => dispatch(createNotification(creationData))}>알림추가</div> */}
+    </>
+  )
+  if (statusState === 'loading') return <>now loading..</>
 
   return notifications.map(notification => {
     const date = parseISO(notification.createdAt)

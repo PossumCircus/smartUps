@@ -1,5 +1,5 @@
 const AppError = require('../../utils/appError');
-const Notification = require('../../models/Notification');
+const { Notification } = require('../../models/Notification');
 const User = require('../../models/User')
 
 // Function 1 : get notifications
@@ -22,7 +22,6 @@ exports.getAllNotifications = async (req, res, next) => {
     try {
         const notifications = await Notification.find()
         if (!notifications) return next(new AppError("There are no notifications to fetch"))
-
         res.status(200).json(notifications)
     } catch (error) {
         console.log(error)
@@ -33,20 +32,17 @@ exports.getAllNotifications = async (req, res, next) => {
 // Utility function to send a notification to a user and add notification to Notification db
 exports.createNotification = async (req, res, next) => {
     try {
-        const { notificationData } = req.body
-        if (!notificationData) return next(new AppError("There is no notificationData"))
-
-        const userId = notificationData.recipient
-
-        await Notification.create(notificationData);
-
+        const creationData = req.body
+        if (!creationData) return next(new AppError("There is no notificationData"))
+        const userId = creationData.recipient
+        await Notification.create(creationData);
         // Optional: If you want a new notification indicator on the User 
         await User.findByIdAndUpdate(userId, { $inc: { newNotificationsCount: 1 } });
+        console.log(4)
     } catch (error) {
         console.log(error)
         next(error)
     }
-
 }
 
 exports.deleteNotification = async (req, res, next) => {
