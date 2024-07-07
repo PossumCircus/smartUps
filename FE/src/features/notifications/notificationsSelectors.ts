@@ -1,4 +1,8 @@
 import { RootState } from "../../app/store";
-import { NotificationDataType } from "../../types/notificationsType";
+import { NotificationDataType, NotificationInitialStateDataType } from "../../types/notificationsType";
 
-export const selectAllNotifications = (state: RootState): NotificationDataType[] => state.notifications;
+export const selectAllNotifications = (state: RootState): NotificationDataType[] => state.notifications.entities;
+
+export const notificationsStatus = (state: RootState): NotificationInitialStateDataType["status"] => state.notifications.status
+
+export const notificationsError = (state: RootState): NotificationInitialStateDataType["error"] => state.notifications.error

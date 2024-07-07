@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
 const crypto = require("crypto");
-const { notificationAlarmStateSchema } = require('./Notification')
+const { notificationStateSchema } = require('./Notification')
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema({
     default: 0
   },
   notificationAlarmState: {
-    type: notificationAlarmStateSchema
+    type: notificationStateSchema
   }
 });
 

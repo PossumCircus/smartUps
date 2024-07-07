@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserDataType, UsersStateType } from "../../types/usersType";
+import { UserDataType, UsersInitialStateDataType } from "../../types/usersType";
 import { fetchUsers, fetchUserProfile } from "./usersAsyncThunks";
 
-const initialState: UsersStateType = {
+const initialState = {
   entities: [] as UserDataType[],
   loginUser: null,
   status: "idle",

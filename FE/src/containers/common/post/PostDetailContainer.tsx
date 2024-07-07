@@ -25,7 +25,6 @@ const PostDetailContainer: React.FC = () => {
       dispatch(fetchPostById({ postId }));
     }
   }, [postId, dispatch]);
-  console.log(post)
 
   const token: string | null = localStorage.getItem("token");
   let loginToken: { id: string } | null = null;

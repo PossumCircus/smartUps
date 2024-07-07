@@ -49,7 +49,6 @@ const EditPostContainer: React.FC = () => {
   let decodedToken: jwtType | null;
   if (token !== null) {
     decodedToken = jwtDecode<jwtType>(token);
-    console.log("현재 로그인된 ID", decodedToken.id);
   } else {
     console.error("Token is null");
   }

@@ -18,7 +18,6 @@ import {
 } from "./pages";
 
 import routes from "./constants/routes";
-// Hooks
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";

@@ -38,7 +38,9 @@ interface EditCommentArgsDataType {
   config?: AxiosRequestConfig
 }
 
-export const fetchPosts = createAsyncThunk<PostDataType[], AxiosRequestConfig>("posts/fetchPosts", async (config) => {
+export const fetchPosts = createAsyncThunk<PostDataType[], AxiosRequestConfig>(
+  "posts/fetchPosts",
+   async (config) => {
   const { data } = await axios.get(`${process.env.REACT_APP_POST_API_URL}`, config);
   if (!data) {
     throw new Error("Failed  to 'fetchPosts' no response.");

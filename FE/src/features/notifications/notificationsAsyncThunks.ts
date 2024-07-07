@@ -1,8 +1,17 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk, GetThunkAPI } from "@reduxjs/toolkit";
+import axios, { AxiosRequestConfig } from "axios";
 import { NotificationDataType } from "../../types/notificationsType";
-import { RootState } from "../../app/store";
+import { RootState, AppDispatch } from "../../app/store";
 import { selectAllNotifications } from "./notificationsSelectors";
+
+interface CreateNotificationDataType {
+  recipient: string;
+  sender?: string;
+  notificationType: 'post_new_comment' | 'post_like' | 'comment_new_reply' | 'chat';
+  link?: string;
+  isNew: boolean;
+  isRead: boolean;
+}
 
 export const fetchNotifications = createAsyncThunk<NotificationDataType[], void, { state: RootState }>(
   'notifications/fetchNotifications',
@@ -15,3 +24,11 @@ export const fetchNotifications = createAsyncThunk<NotificationDataType[], void,
     return data
   }
 );
+
+export const createNotification = createAsyncThunk<NotificationDataType, CreateNotificationDataType>(
+  'notifications/createNotification',
+  async (creationData, config) => {
+    const { data } = await axios.post(`${process.env.REACT_APP_NOTIFICATION_API_URL}`, config)
+    return data
+  }
+)

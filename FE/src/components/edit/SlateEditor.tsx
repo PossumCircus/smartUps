@@ -29,7 +29,6 @@ const SlateEditor: React.FC<SlateEditorProps> = ({ content, setContent }) => {
 
   const handleChange = (newValue: Descendant[]) => {
     setContent(newValue);
-    console.log(newValue);
   };
 
   return (

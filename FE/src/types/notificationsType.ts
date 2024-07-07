@@ -2,16 +2,22 @@ export interface NotificationDataType {
     _id: string; // Assuming MongoDB ObjectId is converted to string
     recipient: string; // User ID as string
     sender?: string; // Optional User ID as string or oid from DB
-    alertType: "new_comment" | "post_like" | "follow" | "chat"; 
+    notificationType: 'post_new_comment'| 'post_like'| 'comment_new_reply'| 'chat';
     link?: string; // Optional link 
+    isNew: boolean;
     isRead: boolean;
     createdAt: string; // ISO date string
 }
 
-export interface AlarmStateType {
-    postLikes : boolean;
-    postNewComments : boolean;
-    commentLikes : boolean;
-    replies : boolean;
-    chats : boolean;
+export interface NotificationInitialStateDataType {
+    entities: NotificationDataType[],
+    status: "idle" | "loading" | "succeeded" | "failed";
+    error: string | null;
+}
+
+export interface NotificationsStateType {
+    postLikes: boolean;
+    postNewComments: boolean;
+    commentNewReplies: boolean;
+    chats: boolean;
 }

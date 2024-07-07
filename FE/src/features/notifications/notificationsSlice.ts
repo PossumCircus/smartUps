@@ -1,22 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { NotificationDataType } from "../../types/notificationsType";
+import { NotificationDataType, NotificationInitialStateDataType } from "../../types/notificationsType";
 import { fetchNotifications } from "./notificationsAsyncThunks";
 
-const initialState: NotificationDataType[] = [];
+const initialState: NotificationInitialStateDataType = {
+  entities: [] as NotificationDataType[],
+  status: 'idle',
+  error: null,
+};
 
 const notificationsSlice = createSlice({
   name: 'notifications',
   initialState,
   reducers: {
-    setAllNotificationsRead(state, action : PayloadAction<NotificationDataType[]>) {
-      state.forEach(notification => notification.isRead = true)
+    setAllNotificationsRead(state, action: PayloadAction<NotificationDataType[]>) {
+      state.entities.forEach(notification => notification.isRead = true)
     }
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchNotifications.fulfilled, (state, action: PayloadAction<NotificationDataType[]>) => {
-        state.push(...action.payload);
-        state.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        state.entities.push(...action.payload);
+        state.entities.forEach(notification => notification.isNew = !notification.isRead)
+        state.entities.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       });
   }
 });

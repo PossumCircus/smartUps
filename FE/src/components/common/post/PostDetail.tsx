@@ -27,7 +27,6 @@ const PostDetail: React.FC<PostDetailProps> = ({
   handleDeleteClick,
   loginToken,
 }) => {
-  console.log(post)
   if (isLoading === "loading") {
     return <div>Loading...</div>;
   }

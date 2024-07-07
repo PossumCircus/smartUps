@@ -12,14 +12,15 @@ const notificationSchema = new mongoose.Schema({
     },
     notificationType: {
         type: String,
-        enum: ['new_comment', 'like', 'follow', 'chat']
+        enum: ['post_new_comment', 'post_like', 'comment_new_reply', 'chat']
     },
     link: { type: String },
+    isNew: { type: Boolean, default: true },
     isRead: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
 });
 
-const notificationAlarmStateSchema = new mongoose.Schema({
+const notificationStateSchema = new mongoose.Schema({
     postLikes: {
         type: Boolean,
         default: false
@@ -28,19 +29,15 @@ const notificationAlarmStateSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    commentLikes: {
-        type: Boolean,
-        default: false
-    },
     commentNewReplies: {
         type: Boolean,
         default: false
     },
-    chat: {
+    chats: {
         type: Boolean,
         default: false
     }
 });
 
 const Notification = mongoose.model('Notification', notificationSchema);
-module.exports = { Notification, notificationAlarmStateSchema } 
+module.exports = { Notification, notificationStateSchema } 
