@@ -1,8 +1,6 @@
 import { fetchUsers, fetchUserProfile } from "./usersAsyncThunks";
 import {
-    selectAllUsers,
-    selectSingleUserById,
-    selectLoginUser,
+    selectUser,
     usersStatus,
     usersError,
 } from "./usersSelectors";
@@ -11,9 +9,7 @@ export {
     fetchUsers,
     fetchUserProfile,
     // redux users selector
-    selectAllUsers,
-    selectSingleUserById,
-    selectLoginUser,
+    selectUser,
     usersStatus,
     usersError,
 }

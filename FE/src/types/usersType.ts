@@ -1,4 +1,4 @@
-import NotificationsStateType from "./notificationsType"
+import { NotificationsStateType } from "./notificationsType"
 export interface UserDataType {
   _id: string;
   username: string;
@@ -10,12 +10,11 @@ export interface UserDataType {
   role: "user" | "admin";
   // newNotificationsCount: number;
   profile: ProfileDataType;
-  notificationsState : NotificationsStateType;
+  notificationsState: NotificationsStateType;
 }
 
 export interface UsersInitialStateDataType {
-  entities: UserDataType[];
-  loginUser: UserDataType | null;
+  entities: UserDataType;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
@@ -25,7 +24,7 @@ export interface ProfileDataType {
   location: string;
   avatar: string;
   desiredJobTypes: string;
-  experience : string;
+  experience: string;
 }
 
 export interface UserLoginDataType extends UserDataType {

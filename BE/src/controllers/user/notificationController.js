@@ -5,13 +5,10 @@ const User = require('../../models/User')
 // Function 1 : get notifications
 exports.getNotifications = async (req, res, next) => {
     try {
-        const { notificationId } = req.body
-        if (!notificationId) return next(new AppError("There is no notificationData"))
-
-        const notification = await Notification.findById(notificationId)
-        if (!notification) return next(new AppError("There are no notifications"))
-
-        res.status(200).json(notification)
+        const userId = req.params.loginUserId
+        const notifications = await Notification.find({ recipient: userId })
+        .sort({ createdAt: -1 })
+        res.status(200).json(notifications)
     } catch (error) {
         console.log(error)
         next(error);

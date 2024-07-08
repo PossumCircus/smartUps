@@ -8,4 +8,7 @@ router.route('/')
     .get(notificationController.getAllNotifications)
     .post(notificationController.createNotification)
 
+
+router.route('/:loginUserId')
+    .get(notificationController.getNotifications)
 module.exports = router;
