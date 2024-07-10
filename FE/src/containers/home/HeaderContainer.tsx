@@ -1,40 +1,48 @@
 import Header from "../../components/home/Header";
 import React, { useState } from "react";
-
 const HeaderContainer: React.FC = () => {
+
   const token = localStorage.getItem("token");
-  //MUI 엘리먼트
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [myMenuAnchorEl, setMyMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const [myProfileAnchorEl, setMyProfileAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleUserInfoClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
+  const handleMyMenuOpen = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    setMyMenuAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleMyMenuClose = (): void => {
+    setMyMenuAnchorEl(null);
+    setMyProfileAnchorEl(null)
   };
+
+  const handleMyProfileOpen = (event: React.MouseEvent<HTMLLIElement>): void => {
+    setMyProfileAnchorEl(event.currentTarget)
+  }
+  const handleMyProfileClose = (): void => {
+    setMyProfileAnchorEl(null)
+  }
 
   const [open, setOpen] = React.useState(false);
-  //toggleSidebar에서 toggleDrawer로 함수변경
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
 
-  //로그아웃
   const handleLogOut = () => {
-    // 로컬스토리지에서 user,token 삭제
     localStorage.removeItem("persist:users");
     localStorage.removeItem("token");
-    handleClose();
+    handleMyMenuClose();
     window.location.reload();
   };
 
   return (
     <Header
       toggleDrawer={toggleDrawer}
-      anchorEl={anchorEl}
-      handleUserInfoClick={handleUserInfoClick}
-      handleClose={handleClose}
+      myMenuAnchorEl={myMenuAnchorEl}
+      handleMyMenuOpen={handleMyMenuOpen}
+      handleMyMenuClose={handleMyMenuClose}
+      myProfileAnchorEl={myProfileAnchorEl}
+      handleMyProfileOpen={handleMyProfileOpen}
+      handleMyProfileClose={handleMyProfileClose}
       open={open}
       token={token}
       handleLogOut={handleLogOut}

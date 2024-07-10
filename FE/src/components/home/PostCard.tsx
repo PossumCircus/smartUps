@@ -1,5 +1,5 @@
 import DOMPurify from "dompurify";
-import { Post } from "../../types/postsType";
+import { PostDataType } from "../../types/postsType";
 import { Card, CardContent, Typography, Box } from "../../styles/mui/index";
 
 interface PostCardProps {

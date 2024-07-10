@@ -3,8 +3,6 @@ import { ButtonGroup, Button, Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 
-// 유저 정보 화면은 비밀번호 재확인 후 접근 가능하게 설정.
-//현재 스켈레톤 코드 상태임.
 type UserProfileProps = {
   buttonState: string;
   stateHandler: (section: string) => void;
@@ -56,12 +54,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ buttonState, stateHandler }) 
             <li className="flex space-x-5">
               <div className="flex flex-col">
                 <div>가입 일자 : </div>
-                <div>작성 글 : 개</div>
-                <div>작성 댓글 : 개</div>
-              </div>
-              <div className="flex flex-col">
-                <div>받은 좋아요 : </div>
-                <div>보낸 좋아요 : </div>
+                <div>작성 글 : { }개</div>
+                <div>작성 댓글 : { }개</div>
               </div>
             </li>
             <li>
@@ -70,7 +64,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ buttonState, stateHandler }) 
                 <Button>내가 작성한 댓글</Button>
                 <Button>좋아요 누른 글</Button>
                 <Button>내가 스크랩한 글</Button>
-                <Button>내가 받은 알림</Button>
+                <Button><Link to="/me/notification">내가 받은 알림</Link></Button>
               </ButtonGroup>
             </li>
           </ul>

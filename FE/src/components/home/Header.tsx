@@ -22,18 +22,24 @@ import MobileSidebar from "./MobileSidebar";
 
 interface HeaderProps {
   open: boolean;
-  anchorEl: any;
-  handleUserInfoClick: (event: any) => void;
-  handleClose: () => void;
+  myMenuAnchorEl: any;
+  handleMyMenuOpen: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleMyMenuClose: () => void;
+  myProfileAnchorEl: any
+  handleMyProfileOpen: (event: React.MouseEvent<HTMLLIElement>) => void;
+  handleMyProfileClose: () => void;
   toggleDrawer: (newOpen: boolean) => () => void;
   token: any;
   handleLogOut: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
-  anchorEl,
-  handleUserInfoClick,
-  handleClose,
+  myMenuAnchorEl,
+  handleMyMenuOpen,
+  handleMyMenuClose,
+  myProfileAnchorEl,
+  handleMyProfileOpen,
+  handleMyProfileClose,
   toggleDrawer,
   open,
   token,
@@ -54,7 +60,6 @@ const Header: React.FC<HeaderProps> = ({
                 <MobileSidebar toggleDrawer={toggleDrawer} />
               </Drawer>
             </div>
-
             {/* Logo */}
             <Link to="/">
               <img
@@ -63,7 +68,6 @@ const Header: React.FC<HeaderProps> = ({
                 style={{ width: "40px", height: "40px", marginLeft: "16px", marginRight: "16px" }}
               />
             </Link>
-
             {/* Search Bar */}
             <div className="hidden md:block">
               <Box
@@ -88,76 +92,94 @@ const Header: React.FC<HeaderProps> = ({
               </Box>
             </div>
           </Box>
-
           <Box display="flex" alignItems="center" ml={2}>
             <div className="md:hidden">
               <IconButton color="inherit" aria-label="search">
                 <SearchIcon />
               </IconButton>
             </div>
-            {/* redux persist 로 전역데이터 로컬스토리지에 저장, 내정보 설정 로그아웃 구현 */}
             <DarkModeToggle />
-            {/* 로그인,회원가입버튼 */}
-            {token ? (
-              <div className="ml-6">
-                <Badge badgeContent={1} color="secondary">
-                  <MailIcon color="action" />
-                </Badge>
-                <IconButton color="inherit" onClick={handleUserInfoClick}>
-                  <PersonIcon />
-                </IconButton>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                >
-                  <Link to={routes.userProfile}>
-                    <MenuItem>내 정보</MenuItem>
+            {token ?
+              (
+                <div className="ml-6">
+                  <Badge badgeContent={1} color="secondary">
+                    <MailIcon color="action" />
+                  </Badge>
+                  <IconButton color="inherit" onClick={handleMyMenuOpen}>
+                    <PersonIcon />
+                  </IconButton>
+                  <Menu
+                    anchorEl={myMenuAnchorEl}
+                    open={Boolean(myMenuAnchorEl)}
+                    onClose={handleMyMenuClose}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "right",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                  >
+                    <MenuItem onClick={(e) => {
+                      handleMyMenuClose()
+                      handleMyProfileOpen(e)
+                    }}>내 정보</MenuItem>
+                    <MenuItem onClick={handleLogOut}>로그아웃</MenuItem>
+                  </Menu>
+                  <Menu
+                    anchorEl={myProfileAnchorEl}
+                    open={Boolean(myProfileAnchorEl)}
+                    onClose={handleMyProfileClose}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                  >
+                    <MenuItem>
+                      <Link to={routes.userProfile}>프로필</Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link to={routes.notifications}>내 알림</Link>
+                    </MenuItem>
+                  </Menu>
+                </div>
+              ) : (
+                <>
+                  <Link to={routes.login} style={{ textDecoration: "none" }}>
+                    <Button
+                      sx={{
+                        color: "#42a5f5",
+                        ":hover": { color: "white", backgroundColor: "#42a5f5" },
+                        mx: 1,
+                      }}
+                    >
+                      로그인
+                    </Button>
                   </Link>
-                  {/* <MenuItem>설정</MenuItem> */}
-                  <MenuItem onClick={handleLogOut}>로그아웃</MenuItem>
-                </Menu>
-              </div>
-            ) : (
-              <>
-                <Link to={routes.login} style={{ textDecoration: "none" }}>
-                  <Button
-                    sx={{
-                      color: "#42a5f5",
-                      ":hover": { color: "white", backgroundColor: "#42a5f5" },
-                      mx: 1,
-                    }}
-                  >
-                    로그인
-                  </Button>
-                </Link>
-                <Link to={routes.signup} style={{ textDecoration: "none" }}>
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      borderColor: "#42a5f5",
-                      color: "#42a5f5",
-                      ":hover": {
-                        backgroundColor: "#42a5f5",
+                  <Link to={routes.signup} style={{ textDecoration: "none" }}>
+                    <Button
+                      variant="outlined"
+                      sx={{
                         borderColor: "#42a5f5",
-                        color: "white",
-                      },
-                      mx: 1,
-                    }}
-                  >
-                    회원 가입
-                  </Button>
-                </Link>
-              </>
-            )}
+                        color: "#42a5f5",
+                        ":hover": {
+                          backgroundColor: "#42a5f5",
+                          borderColor: "#42a5f5",
+                          color: "white",
+                        },
+                        mx: 1,
+                      }}
+                    >
+                      회원 가입
+                    </Button>
+                  </Link>
+                </>
+              )}
           </Box>
         </Toolbar>
       </div>

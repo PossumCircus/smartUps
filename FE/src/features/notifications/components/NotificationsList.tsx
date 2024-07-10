@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { formatDistanceToNow, parseISO } from "date-fns"
 
-// import { selectAllUsers } from "../../users"
 import {
   selectAllNotifications,
   notificationsStatus,
@@ -25,14 +24,7 @@ const NotificationsList: React.FC<any> = () => {
     }
   }, [statusState, dispatch])
 
-  if (notifications.length < 1) {
-    return (
-      <>
-        <div>새로운 알림이 없습니다.</div>
-        {/* <div onClick={() => dispatch(createNotification(creationData))}>알림추가</div> */}
-      </>
-    )
-  }
+  if (notifications.length < 1) return <>새로운 알림이 없습니다.</>
   if (statusState === 'loading') return <>now loading..</>
   if (statusState === 'succeeded') {
     return notifications.map(notification => {

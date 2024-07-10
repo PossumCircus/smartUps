@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import FilterListIcon from "@mui/icons-material/FilterList"; // MUI 아이콘 사용
+import FilterListIcon from "@mui/icons-material/FilterList"; 
 import { Box, Button, Menu, MenuItem, IconButton, Typography } from "@mui/material";
 import React, { useState } from "react";
 
@@ -10,7 +10,7 @@ interface NavPathType {
 interface PostsTopicNavPropsType {
   navPaths: NavPathType[];
   topic: string | null;
-  handleWriteClick: () => void; //0624 김세준 추가
+  handleWriteClick: () => void;
 }
 
 export default function PostsTopicNav({ navPaths, topic, handleWriteClick }: PostsTopicNavPropsType) {
