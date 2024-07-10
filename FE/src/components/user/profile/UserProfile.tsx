@@ -50,21 +50,15 @@ const UserProfile: React.FC<UserProfileProps> = ({ buttonState, stateHandler }) 
           </ul>
         </div>
         <div className={`w-[46rem] border-2 border-black ${buttonState === "history" ? "bg-slate-400" : "hidden"}`}>
+          <div>가입 일자 : </div>
           <ul className="flex flex-col items-center text-left space-y-8 w-full mt-6 h-auto">
             <li className="flex space-x-5">
-              <div className="flex flex-col">
-                <div>가입 일자 : </div>
-                <div>작성 글 : { }개</div>
-                <div>작성 댓글 : { }개</div>
-              </div>
-            </li>
-            <li>
               <ButtonGroup variant="contained" aria-label="Basic button group">
-                <Button>내가 작성한 글</Button>
-                <Button>내가 작성한 댓글</Button>
-                <Button>좋아요 누른 글</Button>
-                <Button>내가 스크랩한 글</Button>
-                <Button><Link to="/me/notification">내가 받은 알림</Link></Button>
+                <Button>작성 글 : { }개</Button>
+                <Button>작성 댓글 : { }개</Button>
+                <Button>좋아요 누른 글 : { } 개</Button>
+                <Button>스크랩한 글 : { } 개</Button>
+                <Button><Link to="/me/notification">받은 알림 : { } 개</Link></Button>
               </ButtonGroup>
             </li>
           </ul>

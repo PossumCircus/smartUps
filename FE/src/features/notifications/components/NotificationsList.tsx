@@ -33,16 +33,17 @@ const NotificationsList: React.FC<any> = () => {
       return (
         <div key={notification._id} className="notification">
           <div>
-            <b>{notification.sender ? notification.sender : "Unknown User"}</b> {notification.notificationType}
-          </div>
-          <div title={notification.createdAt}>
-            <i>{timeAgo} ago</i>
+            <b>{notification.sender ? notification.sender : "Unknown User"}</b>
+            <br />
+            {notification.notificationType}
+            <div title={notification.createdAt}>
+              <i>{timeAgo} ago</i>
+            </div>
           </div>
         </div>
       )
     })
   }
-
 }
 
 export default NotificationsList
