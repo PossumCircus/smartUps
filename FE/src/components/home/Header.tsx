@@ -22,14 +22,14 @@ import MobileSidebar from "./MobileSidebar";
 
 interface HeaderProps {
   open: boolean;
-  myMenuAnchorEl: any;
+  myMenuAnchorEl: null | HTMLElement;
   handleMyMenuOpen: (event: React.MouseEvent<HTMLButtonElement>) => void;
   handleMyMenuClose: () => void;
-  myProfileAnchorEl: any
+  myProfileAnchorEl: null | HTMLElement;
   handleMyProfileOpen: (event: React.MouseEvent<HTMLLIElement>) => void;
   handleMyProfileClose: () => void;
   toggleDrawer: (newOpen: boolean) => () => void;
-  token: any;
+  loginUser: string | null;
   handleLogOut: () => void;
 }
 
@@ -42,9 +42,10 @@ const Header: React.FC<HeaderProps> = ({
   handleMyProfileClose,
   toggleDrawer,
   open,
-  token,
+  loginUser,
   handleLogOut,
 }) => {
+  console.log(loginUser)
   return (
     <AppBar position="static" color="inherit" elevation={0} sx={{ boxShadow: "none" }}>
       <div className="w-full mx-auto max-w-[1280px]">
@@ -55,7 +56,6 @@ const Header: React.FC<HeaderProps> = ({
               <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
                 <MenuIcon />
               </IconButton>
-
               <Drawer open={open} onClose={toggleDrawer(false)}>
                 <MobileSidebar toggleDrawer={toggleDrawer} />
               </Drawer>
@@ -99,7 +99,7 @@ const Header: React.FC<HeaderProps> = ({
               </IconButton>
             </div>
             <DarkModeToggle />
-            {token ?
+            {loginUser ?
               (
                 <div className="ml-6">
                   <Badge badgeContent={1} color="secondary">

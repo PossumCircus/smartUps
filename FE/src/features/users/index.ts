@@ -1,13 +1,15 @@
-import { fetchUsers, fetchUserProfile } from "./usersAsyncThunks";
+import { userLogin } from "./usersAsyncThunks";
+import { logOut } from "./usersSlice";
 import {
     selectUser,
     usersStatus,
     usersError,
 } from "./usersSelectors";
 export {
+    // reducers
+    logOut,
     // redux async thunk function
-    fetchUsers,
-    fetchUserProfile,
+    userLogin,
     // redux users selector
     selectUser,
     usersStatus,

@@ -1,7 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import postsReducer from "../features/posts/postsSlice"; // Reducer for posts feature
 import usersReducer from "../features/users/usersSlice";
-import themeReducer from "../features/darkmode/themeSlice"; // Reducer for dark mode feature
+import themeReducer from "../features/theme/themeSlice"; // Reducer for dark mode feature
 import notificationsReducer from "../features/notifications/notificationsSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";

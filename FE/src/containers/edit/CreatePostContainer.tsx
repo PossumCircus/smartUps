@@ -19,7 +19,6 @@ const CreatePostContainer: React.FC = () => {
   const [inputHashTagValue, setInputHashTagValue] = useState("");
   const [content, setContent] = useState<Descendant[]>(initialValue);
   const author = localStorage.getItem("decodedToken");
-
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 

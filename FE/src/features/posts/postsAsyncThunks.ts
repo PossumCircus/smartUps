@@ -2,12 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosRequestConfig } from "axios";
 import { PostDataType, PaginatedPostsResponseDataType, CommentDataType } from "../../types/postsType";
 
-interface FetchPostByIdArgsType {
+interface FetchPostByIdArgsDataType {
   postId: string;
   config?: AxiosRequestConfig;
 }
 
-interface PostReactionArgsType {
+interface PostReactionArgsDataType {
   postId: string;
   user_id: string;
   reaction: string;
@@ -59,7 +59,7 @@ export const fetchInfiniteScrollPosts = createAsyncThunk<PaginatedPostsResponseD
   }
 );
 
-export const fetchPostById = createAsyncThunk<PostDataType, FetchPostByIdArgsType>(
+export const fetchPostById = createAsyncThunk<PostDataType, FetchPostByIdArgsDataType>(
   "posts/fetchPostById",
   async ({ postId, config }, { rejectWithValue }) => {
     try {
@@ -77,7 +77,6 @@ export const fetchPostById = createAsyncThunk<PostDataType, FetchPostByIdArgsTyp
   }
 );
 
-//김세준 수정 <PostDataType, AxiosRequestConfig> => <PostDataType, CreatePostArgsType>
 export const createNewPost = createAsyncThunk<PostDataType, CreatePostArgsDataType>(
   "posts/addNewPost",
   async ({ author, topic, title, hashtags, content, config }) => {
@@ -90,7 +89,7 @@ export const createNewPost = createAsyncThunk<PostDataType, CreatePostArgsDataTy
   }
 );
 
-export const addPostReaction = createAsyncThunk<PostDataType, PostReactionArgsType>(
+export const addPostReaction = createAsyncThunk<PostDataType, PostReactionArgsDataType>(
   "posts/addPostReaction",
   async ({ postId, reaction, config }, { rejectWithValue }) => {
     try {
@@ -108,7 +107,7 @@ export const addPostReaction = createAsyncThunk<PostDataType, PostReactionArgsTy
   }
 );
 
-export const increaseViewsCount = createAsyncThunk<PostDataType, FetchPostByIdArgsType>(
+export const increaseViewsCount = createAsyncThunk<PostDataType, FetchPostByIdArgsDataType>(
   "posts/increaseViewsCount",
   async ({ postId }) => {
     try {

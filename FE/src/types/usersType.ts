@@ -5,16 +5,15 @@ export interface UserDataType {
   email: string;
   themeMode: string;
   // fullName: string;
-  // password: string;
   // googleId: string;
   role: "user" | "admin";
-  // newNotificationsCount: number;
+  newNotificationsCount: number;
   profile: ProfileDataType;
   notificationsState: NotificationsStateType;
 }
 
 export interface UsersInitialStateDataType {
-  entities: UserDataType;
+  entity: UserDataType;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
@@ -31,7 +30,6 @@ export interface UserLoginDataType extends UserDataType {
   passwordResetToken?: string;
   passwordResetExpires?: Date;
 }
-
 
 // Auth
 export interface SignUpFormDataType {

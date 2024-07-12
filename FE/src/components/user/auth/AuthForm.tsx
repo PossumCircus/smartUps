@@ -44,7 +44,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isSignUp, onSubmit, toggleForm, sig
             {isSignUp ? "회원가입" : "로그인"}
           </Typography>
           <div>
-            <p>테스트 아이디,비밀번호 복사해서 사용하세요</p>
+            <p>테스트용 계정</p>
             <p>test@test.com</p>
             <p>test1234</p>
           </div>

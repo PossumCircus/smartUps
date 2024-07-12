@@ -5,7 +5,7 @@ import MainLayout from "./layouts/MainLayout";
 // Pages
 import {
   HomePage,
-  // NotFoundPage,
+  NotFoundPage,
   CommunityPostsPage,
   PostDetailPage,
   EditPage,
@@ -22,10 +22,12 @@ import routes from "./constants/routes";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { useSelector } from "react-redux";
+import { selectTheme } from "./features/theme/themeSelector";
+import { selectUser } from "./features/users";
 
 const App: React.FC = () => {
-  const themeMode = useSelector((state: any) => state.theme.themeMode);
-  console.log("redux thememode", themeMode);
+  const themeMode = useSelector(selectTheme);
+  const loginUser: string | undefined = useSelector(selectUser)?._id
 
   const theme = createTheme({
     palette: {
@@ -48,11 +50,11 @@ const App: React.FC = () => {
             <Route path={routes.postDetail} element={<PostDetailPage />} />
             <Route path={routes.edit} element={<EditPage />} />
             <Route path="edit/post/:id" element={<EditPostPage />} />
-            {/* <Route path="*" element={<NotFoundPage />} /> */}
-            <Route path={routes.userProfile} element={<UserProfilePage />} />
-            <Route path={routes.userProfileEdit} element={<UserProfileEditPage />} />
-            <Route path={routes.notifications} element={<NotificationsPage />} />
-            <Route path={routes.otherUserProfile} element={<OtherUserProfilePage />} />
+            {loginUser && <Route path={routes.userProfile} element={<UserProfilePage />} />}
+            {loginUser && <Route path={routes.userProfileEdit} element={<UserProfileEditPage />} />}
+            {loginUser && <Route path={routes.notifications} element={<NotificationsPage />} />}
+            {loginUser && <Route path={routes.otherUserProfile} element={<OtherUserProfilePage />} />}
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
           <Route path={routes.auth} element={<AuthPage />} />
         </Routes>

@@ -1,8 +1,13 @@
 import Header from "../../components/home/Header";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut, selectUser } from "../../features/users";
+import { AppDispatch } from "../../app/store";
 const HeaderContainer: React.FC = () => {
-
-  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>()
+  const loginUser = useSelector(selectUser)._id
   const [myMenuAnchorEl, setMyMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [myProfileAnchorEl, setMyProfileAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -18,6 +23,7 @@ const HeaderContainer: React.FC = () => {
   const handleMyProfileOpen = (event: React.MouseEvent<HTMLLIElement>): void => {
     setMyProfileAnchorEl(event.currentTarget)
   }
+
   const handleMyProfileClose = (): void => {
     setMyProfileAnchorEl(null)
   }
@@ -28,10 +34,9 @@ const HeaderContainer: React.FC = () => {
   };
 
   const handleLogOut = () => {
-    localStorage.removeItem("persist:users");
-    localStorage.removeItem("token");
+    dispatch(logOut())
     handleMyMenuClose();
-    window.location.reload();
+    navigate("/");
   };
 
   return (
@@ -44,7 +49,7 @@ const HeaderContainer: React.FC = () => {
       handleMyProfileOpen={handleMyProfileOpen}
       handleMyProfileClose={handleMyProfileClose}
       open={open}
-      token={token}
+      loginUser={loginUser}
       handleLogOut={handleLogOut}
     />
   );

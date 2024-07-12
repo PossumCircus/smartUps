@@ -4,21 +4,20 @@ import { SubmitHandler } from "react-hook-form";
 import { LoginFormDataType, SignUpFormDataType } from "../../../types/usersType";
 import AuthForm from "../../../components/user/auth/AuthForm";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../../features/users/usersSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../../app/store";
-import { setThemeMode } from "../../../features/darkmode/themeSlice";
-import { jwtDecode } from "jwt-decode";
+import { setThemeMode } from "../../../features/theme/themeSlice";
 import { useGetQuery } from "../../../hooks";
+import { userLogin, selectUser } from "../../../features/users";
 
 const AuthContainer: React.FC = () => {
   const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
-  const mode = useGetQuery("mode");
-
-  //redux user
   const dispatch = useDispatch<AppDispatch>();
+  const mode = useGetQuery("mode");
+  const userData = useSelector(selectUser)
+
   //useGetQuery사용
   useEffect(() => {
     setIsSignUp(mode === "signup");
@@ -51,30 +50,9 @@ const AuthContainer: React.FC = () => {
       }
     } else {
       try {
-        const response = await axios.post(`${process.env.REACT_APP_AUTH_API_URL}/login`, data, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const result = response.data;
-        if (response.status === 200) {
-          const token = result.token;
-          localStorage.setItem("token", token);
-          dispatch(setThemeMode(result.user.themeMode));
-
-          // JWT 토큰 디코딩
-          const decodedToken = jwtDecode<{ id?: any }>(token);
-          localStorage.setItem("decodedToken", decodedToken.id);
-
-          const userData = result.user;
-          dispatch(setUser(userData));
-
-          navigate("/");
-        } else {
-          alert(result.message);
-          console.error("로그인 실패:", result.message);
-        }
+        dispatch(userLogin({ loginData: data }))
+        dispatch(setThemeMode(userData.themeMode))
+        navigate("/");
       } catch (error) {
         console.error("로그인 요청 중 오류 발생:", error);
       }

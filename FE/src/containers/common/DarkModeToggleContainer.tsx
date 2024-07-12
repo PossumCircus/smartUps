@@ -4,7 +4,7 @@ import { WbSunnyIcon, DarkModeIcon } from "../../styles/muiIcon";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
-import { setThemeMode } from "../../features/darkmode/themeSlice";
+import { setThemeMode } from "../../features/theme/themeSlice";
 
 const DarkModeToggleContainer: React.FC = () => {
   const [icon, setIcon] = useState<ReactElement>(<WbSunnyIcon />); // 아이콘 기본값

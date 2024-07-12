@@ -2,11 +2,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Home from "../../components/home/Home";
-import { Post } from "../../types/postsType";
+import { PostDataType } from "../../types/postsType";
 
 const HomeContainer: React.FC = () => {
-  const [allPosts, setAllPosts] = useState<Post[]>([]);
-  const [visiblePosts, setVisiblePosts] = useState<Post[]>([]);
+  const [allPosts, setAllPosts] = useState<PostDataType[]>([]);
+  const [visiblePosts, setVisiblePosts] = useState<PostDataType[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -15,7 +15,7 @@ const HomeContainer: React.FC = () => {
   //바꿔야함
   const fetchPosts = useCallback(async () => {
     try {
-      const response = await axios.get<Post[]>(`${process.env.REACT_APP_POST_API_URL}/gettenposts?page=${currentPage}`);
+      const response = await axios.get<PostDataType[]>(`${process.env.REACT_APP_POST_API_URL}/gettenposts?page=${currentPage}`);
       setAllPosts((previousPosts) => [...previousPosts, ...response.data]);
       setVisiblePosts((previousVisiblePosts) => [...previousVisiblePosts, ...response.data.slice(0, 20)]);
     } catch (error) {
