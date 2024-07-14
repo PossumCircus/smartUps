@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectUser } from "../../features/users";
 import { AppDispatch } from "../../app/store";
+import { selectAllNotifications } from "../../features/notifications";
 const HeaderContainer: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>()
   const loginUser = useSelector(selectUser)._id
+  const newNotificationsLength = useSelector(selectAllNotifications).filter(content => content.isNewOne === true && content.isRead === false).length
   const [myMenuAnchorEl, setMyMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [myProfileAnchorEl, setMyProfileAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -25,6 +27,7 @@ const HeaderContainer: React.FC = () => {
   }
 
   const handleMyProfileClose = (): void => {
+    setMyMenuAnchorEl(null);
     setMyProfileAnchorEl(null)
   }
 
@@ -39,6 +42,10 @@ const HeaderContainer: React.FC = () => {
     navigate("/");
   };
 
+  const handleNavigateToNotification = () => {
+    navigate("/me/notifications")
+  }
+
   return (
     <Header
       toggleDrawer={toggleDrawer}
@@ -51,6 +58,8 @@ const HeaderContainer: React.FC = () => {
       open={open}
       loginUser={loginUser}
       handleLogOut={handleLogOut}
+      newNotificationsLength={newNotificationsLength}
+      handleNavigateToNotification={handleNavigateToNotification}
     />
   );
 };

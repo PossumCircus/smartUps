@@ -5,11 +5,11 @@ import { setAllNotificationsRead } from "./notificationsSlice"
 export {
     // components
     NotificationsList,
+    // redux reducers
+    setAllNotificationsRead,
     // redux async thunk functions
     fetchNotifications,
     createNotification,
-    // redux reducers
-    setAllNotificationsRead,
     // redux notifications selector
     selectAllNotifications,
     notificationsStatus,

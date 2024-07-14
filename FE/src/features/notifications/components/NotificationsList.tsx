@@ -24,6 +24,12 @@ const NotificationsList: React.FC<any> = () => {
     }
   }, [statusState, dispatch])
 
+  const NotificationTypeRender = (type: string) => {
+    if (type === 'comment_new_reply') return '댓글에 새로운 답글이 달렸습니다.'
+    if (type === 'post_new_comment') return '게시글에 새로운 댓글이 달렸습니다.'
+    if (type === 'post_like') return '게시글에 좋아요가 추가되었습니다.'
+  }
+
   if (notifications.length < 1) return <>새로운 알림이 없습니다.</>
   if (statusState === 'loading') return <>now loading..</>
   if (statusState === 'succeeded') {
@@ -31,11 +37,15 @@ const NotificationsList: React.FC<any> = () => {
       const date = parseISO(notification.createdAt)
       const timeAgo = formatDistanceToNow(date)
       return (
-        <div key={notification._id} className="notification">
+        <div key={notification._id} className="notification w-[15%] border-sky-200 border-2 my-1 p-1">
           <div>
-            <b>{notification.sender ? notification.sender : "Unknown User"}</b>
-            <br />
-            {notification.notificationType}
+            <div className='flex justify-between'>
+              <b>{notification.sender ? notification.sender : "Unknown User"}</b>
+              <div>
+                <button>X</button>
+              </div>
+            </div>
+            {NotificationTypeRender(notification.notificationType)}
             <div title={notification.createdAt}>
               <i>{timeAgo} ago</i>
             </div>

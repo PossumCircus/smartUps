@@ -3,15 +3,27 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Home from "../../components/home/Home";
 import { PostDataType } from "../../types/postsType";
-
+import { useSelector, useDispatch } from "react-redux"
+import { AppDispatch } from "../../app/store";
+import { notificationsStatus, fetchNotifications } from "../../features/notifications";
+import { selectUser } from "../../features/users";
 const HomeContainer: React.FC = () => {
   const [allPosts, setAllPosts] = useState<PostDataType[]>([]);
   const [visiblePosts, setVisiblePosts] = useState<PostDataType[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const dispatch = useDispatch<AppDispatch>();
+  const statusState = useSelector(notificationsStatus)
+  const loginUserId = useSelector(selectUser)._id
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (statusState === 'idle') {
+      dispatch(fetchNotifications({ loginUserId }));
+    }
+  }, [statusState, dispatch])
+  
   //바꿔야함
   const fetchPosts = useCallback(async () => {
     try {

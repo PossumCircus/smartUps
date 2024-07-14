@@ -1,8 +1,6 @@
 import { createAsyncThunk, GetThunkAPI } from "@reduxjs/toolkit";
 import axios, { AxiosRequestConfig } from "axios";
 import { NotificationDataType } from "../../types/notificationsType";
-import { RootState } from "../../app/store";
-import { selectAllNotifications } from "./notificationsSelectors";
 
 interface fetchNotificationsArgsDataType {
   loginUserId: string;
