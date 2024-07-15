@@ -37,15 +37,15 @@ const NotificationsList: React.FC<any> = () => {
       const date = parseISO(notification.createdAt)
       const timeAgo = formatDistanceToNow(date)
       return (
-        <div key={notification._id} className="notification w-[15%] border-sky-200 border-2 my-1 p-1">
+        <div key={notification._id} className="notification w-[25%] border-sky-200 border-2 my-1 p-1">
           <div>
+            {NotificationTypeRender(notification.notificationType)}
             <div className='flex justify-between'>
-              <b>{notification.sender ? notification.sender : "Unknown User"}</b>
+              <b>by {notification.sender ? notification.sender.username : "Unknown User"}</b>
               <div>
                 <button>X</button>
               </div>
             </div>
-            {NotificationTypeRender(notification.notificationType)}
             <div title={notification.createdAt}>
               <i>{timeAgo} ago</i>
             </div>

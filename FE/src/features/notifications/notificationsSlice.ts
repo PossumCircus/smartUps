@@ -20,7 +20,7 @@ const notificationsSlice = createSlice({
     builder
       .addCase(fetchNotifications.fulfilled, (state, action: PayloadAction<NotificationDataType[]>) => {
         console.log('fulfilled', action.payload)
-        state.entities.push(...action.payload);
+        if (action.payload) state.entities.push(...action.payload);
         state.status = 'succeeded'
         // state.entities.forEach(notification => notification.isNewOne = !notification.isRead)
         // state.entities.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());

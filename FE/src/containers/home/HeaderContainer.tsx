@@ -39,7 +39,7 @@ const HeaderContainer: React.FC = () => {
   const handleLogOut = () => {
     dispatch(logOut())
     handleMyMenuClose();
-    navigate("/");
+    navigate("/auth?mode=login");
   };
 
   const handleNavigateToNotification = () => {

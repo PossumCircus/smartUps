@@ -7,22 +7,14 @@ exports.getNotifications = async (req, res, next) => {
     try {
         const userId = req.params.loginUserId
         const notifications = await Notification.find({ recipient: userId })
-        .sort({ createdAt: -1 })
+            .populate('sender', 'username')
+            .sort({ createdAt: -1 })
+        if (!notifications) return next(new AppError("There are no notifications to fetch"))
+        console.log('notifications', notifications)
         res.status(200).json(notifications)
     } catch (error) {
         console.log(error)
         next(error);
-    }
-}
-
-exports.getAllNotifications = async (req, res, next) => {
-    try {
-        const notifications = await Notification.find()
-        if (!notifications) return next(new AppError("There are no notifications to fetch"))
-        res.status(200).json(notifications)
-    } catch (error) {
-        console.log(error)
-        next(error)
     }
 }
 
@@ -31,11 +23,16 @@ exports.createNotification = async (req, res, next) => {
     try {
         const creationData = req.body
         if (!creationData) return next(new AppError("There is no notificationData"))
-        const userId = creationData.recipient
+
+        const recipientId = creationData.recipient
+        const senderId = creationData.sender
+
         await Notification.create(creationData);
+
+        const sender = await User.findById(senderId)
         // Optional: If you want a new notification indicator on the User 
-        await User.findByIdAndUpdate(userId, { $inc: { newNotificationsCount: 1 } });
-        console.log(4)
+        await User.findByIdAndUpdate(recipientId, { $inc: { newNotificationsCount: 1 } });
+        console.log(sender.username)
     } catch (error) {
         console.log(error)
         next(error)

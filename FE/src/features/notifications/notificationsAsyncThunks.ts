@@ -21,7 +21,7 @@ export const fetchNotifications = createAsyncThunk<NotificationDataType[], fetch
   'notifications/fetchNotifications',
   async ({ loginUserId }) => {
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_NOTIFICATION_API_URL}/${loginUserId}`,);
+      const { data } = await axios.get(`${process.env.REACT_APP_NOTIFICATION_API_URL}/${loginUserId}`);
       return data
     } catch (error) {
       console.log(error)

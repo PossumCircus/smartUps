@@ -19,11 +19,11 @@ const HomeContainer: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (statusState === 'idle') {
+    if (loginUserId && statusState === 'idle') {
       dispatch(fetchNotifications({ loginUserId }));
     }
   }, [statusState, dispatch])
-  
+
   //바꿔야함
   const fetchPosts = useCallback(async () => {
     try {
