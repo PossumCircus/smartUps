@@ -41,7 +41,6 @@ exports.login = async (req, res, next) => {
     const userData = user.toObject();
     delete userData.password;
     delete userData.fullName;
-    console.log(userData)
     res.status(200).json(userData);
   } catch (error) {
     next(error);
@@ -75,7 +74,6 @@ exports.checkEmail = async (req, res, next) => {
 };
 
 // Function 5: Check UserName Validation
-//닉네임중복확인유효성검사 -김세준 추가-
 exports.checkUserName = async (req, res, next) => {
   try {
     const existingUser = await User.findOne({ username: req.body.username });

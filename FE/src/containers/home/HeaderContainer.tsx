@@ -45,7 +45,7 @@ const HeaderContainer: React.FC = () => {
   const handleNavigateToNotification = () => {
     navigate("/me/notifications")
   }
-
+  
   return (
     <Header
       toggleDrawer={toggleDrawer}

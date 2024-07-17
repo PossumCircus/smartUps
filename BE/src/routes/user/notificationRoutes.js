@@ -10,4 +10,7 @@ router.route('/')
 
 router.route('/:loginUserId')
     .get(notificationController.getNotifications)
+
+router.route('/:notificationId')
+    .delete(notificationController.deleteNotification)
 module.exports = router;

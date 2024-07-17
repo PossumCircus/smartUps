@@ -28,6 +28,7 @@ export const fetchNotifications = createAsyncThunk<NotificationDataType[], fetch
     }
   }
 );
+
 // export const fetchNotifications = createAsyncThunk<NotificationDataType[], void, { state: RootState }>(
 //   'notifications/fetchNotifications',
 //   async (_, { getState }) => {
@@ -48,6 +49,14 @@ export const createNotification = createAsyncThunk<NotificationDataType, CreateN
   'notifications/createNotification',
   async (creationData) => {
     const { data } = await axios.post(`${process.env.REACT_APP_NOTIFICATION_API_URL}`, creationData)
+    return data
+  }
+)
+
+export const deleteNotification = createAsyncThunk(
+  'notifications/deleteNotification',
+  async (notificationId: string) => {
+    const { data } = await axios.delete(`${process.env.REACT_APP_NOTIFICATION_API_URL}/${notificationId}`)
     return data
   }
 )

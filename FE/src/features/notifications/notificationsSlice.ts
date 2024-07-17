@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NotificationDataType, NotificationInitialStateDataType } from "../../types/notificationsType";
-import { fetchNotifications } from "./notificationsAsyncThunks";
+import { fetchNotifications, deleteNotification } from "./notificationsAsyncThunks";
 
 const initialState: NotificationInitialStateDataType = {
   entities: [] as NotificationDataType[],
@@ -20,10 +20,10 @@ const notificationsSlice = createSlice({
     builder
       .addCase(fetchNotifications.fulfilled, (state, action: PayloadAction<NotificationDataType[]>) => {
         console.log('fulfilled', action.payload)
-        if (action.payload) state.entities.push(...action.payload);
+        const existingIds = new Set(state.entities.map(notification => notification._id));
+        const newNotifications = action.payload.filter(notification => !existingIds.has(notification._id));
+        state.entities = state.entities.concat(newNotifications);
         state.status = 'succeeded'
-        // state.entities.forEach(notification => notification.isNewOne = !notification.isRead)
-        // state.entities.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       })
       .addCase(fetchNotifications.pending, (state, action) => {
         console.log('pending', action.payload)
@@ -33,6 +33,20 @@ const notificationsSlice = createSlice({
         console.log('rejected', action.payload)
         state.status = 'failed'
         state.error = "not found notifications(temporal custom error)"
+      })
+    builder
+      .addCase(deleteNotification.fulfilled, (state, action: PayloadAction<NotificationDataType[]>) => {
+        console.log('fulfilled', action.payload)
+        state.status = 'succeeded'
+      })
+      .addCase(deleteNotification.pending, (state, action) => {
+        console.log('pending', action.payload)
+        state.status = 'loading'
+      })
+      .addCase(deleteNotification.rejected, (state, action) => {
+        console.log('rejected', action.payload)
+        state.status = 'failed'
+        state.error = "there is no notification to delete(temporal custom error)"
       })
   }
 });

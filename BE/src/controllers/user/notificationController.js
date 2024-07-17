@@ -1,6 +1,7 @@
 const AppError = require('../../utils/appError');
 const { Notification } = require('../../models/Notification');
-const User = require('../../models/User')
+const User = require('../../models/User');
+const { Error } = require('mongoose');
 
 // Function 1 : get notifications
 exports.getNotifications = async (req, res, next) => {
@@ -10,7 +11,6 @@ exports.getNotifications = async (req, res, next) => {
             .populate('sender', 'username')
             .sort({ createdAt: -1 })
         if (!notifications) return next(new AppError("There are no notifications to fetch"))
-        console.log('notifications', notifications)
         res.status(200).json(notifications)
     } catch (error) {
         console.log(error)
@@ -32,7 +32,6 @@ exports.createNotification = async (req, res, next) => {
         const sender = await User.findById(senderId)
         // Optional: If you want a new notification indicator on the User 
         await User.findByIdAndUpdate(recipientId, { $inc: { newNotificationsCount: 1 } });
-        console.log(sender.username)
     } catch (error) {
         console.log(error)
         next(error)
@@ -41,13 +40,10 @@ exports.createNotification = async (req, res, next) => {
 
 exports.deleteNotification = async (req, res, next) => {
     try {
-        const { checkedNotificationData } = req.body
-        const user = await User.findById(req.body.loginId).populate('notifications')
-        const target = user.notifications.findIndex(notification => notification._id === checkedNotificationData._id)
-        user.notifications.splice(target, 1)
-        await user.save()
-        await User.findByIdAndUpdate(userId, { $inc: { newNotificationsCount: 1 } });
-        res.send(201).json({
+        const { notificationId } = req.params
+        const removedData = await Notification.findByIdAndDelete(notificationId);
+        if (!removedData) return next(new AppError("There is no notification data to delete"))
+        res.status(201).json({
             data: {
                 state: "알림 제거.",
                 message: "알림이 제거되었습니다."
@@ -73,7 +69,7 @@ exports.setNotificationsState = async (req, res, next) => {
         user.notificationAlarmState.postNewComments = alarmState.postNewCommentsState
         user.notificationAlarmState.commentLikes = alarmState.commentLikesState
         user.notificationAlarmState.commentNewReplies = alarmState.commentNewRepliesState
-        user.notificationAlarmState.chat = alarmState.chatState
+        user.notificationAlarmState.chats = alarmState.chatState
 
         await user.save()
 
