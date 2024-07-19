@@ -1,5 +1,5 @@
 import { setAllNotificationsRead } from "./notificationsSlice";
-import { fetchNotifications, createNotification, deleteNotification } from "./notificationsAsyncThunks";
+import { createNotification, fetchNotifications, setReadNotification, deleteNotification } from "./notificationsAsyncThunks";
 import { selectAllNotifications, notificationsStatus, notificationsError } from "./notificationsSelectors";
 import NotificationsList from "./components/NotificationsList";
 export {
@@ -8,8 +8,9 @@ export {
     // redux reducers
     setAllNotificationsRead,
     // redux async thunk functions
-    fetchNotifications,
     createNotification,
+    fetchNotifications,
+    setReadNotification,
     deleteNotification,
     // redux notifications selector
     selectAllNotifications,

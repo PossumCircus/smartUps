@@ -5,20 +5,19 @@ import NavLinkItem from "../../components/home/SidebarLink";
 import { useTheme } from "@mui/material/styles";
 import routes from "../../constants/routes";
 import { HomeIcon, Groups, QuestionMark } from "../../styles/muiIcon/index";
-
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/users";
 const DesktopSidebarSection: React.FC = () => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
   const token = localStorage.getItem("token");
-
-  //다크모드 유저 데이터에 저장 없으면 Light로 기본값
-
+  const loginUserId = useSelector(selectUser)._id
   return (
     <Box sx={{ display: { xs: "none", md: "block" } }}>
       <aside>
         <Paper
           sx={{
-            width: 240,
+            width: 250,
             bgcolor: "background.paper",
             p: 2,
             borderColor: "divider",
@@ -26,11 +25,11 @@ const DesktopSidebarSection: React.FC = () => {
           }}
         >
           <Typography variant="h6" component="p" gutterBottom>
-            스마트업에는 이미 <br />
-            예비 자영업자들이 1000명이나 있어요!
+            자영업자를 위한 플랫폼<br/>
+            스마트업에 어서 오세요
           </Typography>
           <Typography>회원가입을 하여 더 많은 정보를 얻어보세요!</Typography>
-          {token ? null : (
+          {loginUserId ? null : (
             <Box sx={{ mt: 4, display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
               <Link component={RouterLink} to={routes.signup} sx={{ width: "100%" }}>
                 <Button

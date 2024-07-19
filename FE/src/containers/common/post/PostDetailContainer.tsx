@@ -4,10 +4,8 @@ import { useParams } from "react-router-dom";
 import PostDetail from "../../../components/common/post/PostDetail";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../app/store";
-import { postsStatus, selectAllPosts, selectCurrentPost } from "../../../features/posts/postsSelectors";
-import { addPostReaction } from "../../../features/posts/postsAsyncThunks";
-import { fetchPostById } from "../../../features/posts/postsAsyncThunks";
-import { jwtDecode } from "jwt-decode";
+import { postsStatus, selectCurrentPost, addPostReaction, fetchPostById } from "../../../features/posts";
+import { selectUser } from "../../../features/users";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -19,20 +17,13 @@ const PostDetailContainer: React.FC = () => {
 
   const status = useSelector(postsStatus);
   const post = useSelector(selectCurrentPost);
+  const loginUserId = useSelector(selectUser)._id
 
   useEffect(() => {
     if (postId) {
       dispatch(fetchPostById({ postId }));
     }
   }, [postId, dispatch]);
-
-  const token: string | null = localStorage.getItem("token");
-  let loginToken: { id: string } | null = null;
-  if (token) {
-    loginToken = jwtDecode<{ id: string }>(token);
-  } else {
-    console.log("Token is null");
-  }
 
   const handleAddLike = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (!postId) {
@@ -42,7 +33,7 @@ const PostDetailContainer: React.FC = () => {
     const reaction = "like";
 
     try {
-      await dispatch(addPostReaction({ postId, reaction, user_id: loginToken!.id })).unwrap();
+      await dispatch(addPostReaction({ postId, reaction, user_id: loginUserId })).unwrap();
       alert("게시글에 좋아요가 추가되었습니다.");
     } catch (error) {
       alert("이미 반응이 추가된 게시글입니다.");
@@ -60,7 +51,7 @@ const PostDetailContainer: React.FC = () => {
     const reaction = "dislike";
 
     try {
-      await dispatch(addPostReaction({ postId, reaction, user_id: loginToken!.id })).unwrap();
+      await dispatch(addPostReaction({ postId, reaction, user_id: loginUserId })).unwrap();
       alert("게시글에 싫어요가 추가되었습니다.");
     } catch (error) {
       alert("이미 반응이 추가된 게시글입니다.");
@@ -70,13 +61,13 @@ const PostDetailContainer: React.FC = () => {
   };
 
   const handleEditClick = () => {
-    if (!loginToken) {
+    if (!loginUserId) {
       alert("로그인이 필요합니다.");
       return;
     }
 
     try {
-      if (post && post.author._id === loginToken.id) {
+      if (post && post.author._id === loginUserId) {
         navigate(`/edit/post/${post._id}`);
       } else {
         alert("부적절한 접근입니다. 글쓴이만 수정할수있습니다.");
@@ -87,7 +78,7 @@ const PostDetailContainer: React.FC = () => {
   };
 
   const handleDeleteClick = async () => {
-    if (!loginToken) {
+    if (!loginUserId) {
       alert("로그인이 필요합니다.");
       return;
     }
@@ -98,7 +89,7 @@ const PostDetailContainer: React.FC = () => {
     }
 
     try {
-      if (post && post.author._id === loginToken.id) {
+      if (post && post.author._id === loginUserId) {
         const url = `${process.env.REACT_APP_POST_API_URL}/${postId}`;
         await axios.delete(url, { data: { postId } });
         navigate("/community");
@@ -129,7 +120,7 @@ const PostDetailContainer: React.FC = () => {
       handleAddDislike={handleAddDislike}
       handleEditClick={handleEditClick}
       handleDeleteClick={handleDeleteClick}
-      loginToken={loginToken}
+      loginUserId={loginUserId}
     />
   );
 

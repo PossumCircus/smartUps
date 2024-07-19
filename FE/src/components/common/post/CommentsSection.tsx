@@ -12,18 +12,22 @@ type FormType = {
 }
 
 type CommentsSectionPropsType = {
-    loginToken: { id: string } | null;
+    loginUserId: string;
     post: PostDataType;
 }
 
 const CommentsSection: React.FC<CommentsSectionPropsType> = ({
-    loginToken,
+    loginUserId,
     post
 }) => {
     const [replyFormStates, setReplyFormStates] = useState<FormType>({}); // 각 댓글에 대한 ReplyForm 표시 상태를 관리
     const [isReplyComment, setIsReplyComment] = useState<boolean>(false)
     const [editFormStates, setEditFormStates] = useState<FormType>({}); // 각 댓글에 대한 ReplyForm 표시 상태를 관리
     const [isEditingComment, setIsEditingComment] = useState<boolean>(false)
+    const { id } = useParams<{ id: string }>();
+    const postId = id as string;
+    const dispatch = useDispatch<AppDispatch>();
+
     const toggleReplyForm = (commentId: string) => {
         setReplyFormStates(prevStates => ({
             ...prevStates,
@@ -36,10 +40,6 @@ const CommentsSection: React.FC<CommentsSectionPropsType> = ({
             [replyCommentId]: !prevStates[replyCommentId] // 클릭한 댓글의 EditForm 표시 상태를 반전시킴
         }));
     };
-
-    const { id } = useParams<{ id: string }>();
-    const postId = id as string;
-    const dispatch = useDispatch<AppDispatch>();
 
     const handleDeleteComment = (commentId: string) => {
         const doubleCheck = window.confirm('정말 삭제하시겠습니까?');
@@ -58,7 +58,7 @@ const CommentsSection: React.FC<CommentsSectionPropsType> = ({
                 {post && post.comments.map((comment, i) => {
                     if (!comment) return null;
                     return (
-                        <Box className={`"postDetail:main:bottom:comments[parentComment]:wrapper" my-1 border-l-2 ${comment.author._id === loginToken?.id ? 'border-blue-400' : 'border-gray-400'} bg-gradient-to-tr from-slate-100 to-slate-white`}
+                        <Box className={`"postDetail:main:bottom:comments[parentComment]:wrapper" my-1 border-l-2 ${comment.author._id === loginUserId ? 'border-blue-400' : 'border-gray-400'} bg-gradient-to-tr from-slate-100 to-slate-white`}
                             key={comment._id}
                             sx={{ display: 'flex', flexDirection: 'column', mb: 1, pl: 1 }}>
                             <Box className="postDetail:main:bottom:comments[parentComment]:authorInfo" sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
@@ -70,7 +70,7 @@ const CommentsSection: React.FC<CommentsSectionPropsType> = ({
                             </Box>
                             <Box className="postDetail:main:bottom:comments[parentComment]:commentHandleButtons" sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 {
-                                    loginToken && (
+                                    loginUserId && (
                                         <IconButton sx={{ p: 1, '& svg': { fontSize: 15 } }} onClick={() => {
                                             toggleReplyForm(comment._id)
                                             setIsReplyComment(true)
@@ -80,7 +80,7 @@ const CommentsSection: React.FC<CommentsSectionPropsType> = ({
                                     )
                                 }
                                 <Box sx={{ display: 'flex' }}>
-                                    {loginToken && (comment.author?._id === loginToken!.id) && (
+                                    {loginUserId && (comment.author?._id === loginUserId) && (
                                         <>
                                             <IconButton sx={{ p: 1, '& svg': { fontSize: 15 } }} onClick={() => {
                                                 toggleEditForm(comment._id)
@@ -110,7 +110,7 @@ const CommentsSection: React.FC<CommentsSectionPropsType> = ({
                                     return (
                                         <Box className="postDetail:main:bottom:comments[replyComment]" sx={{ display: 'flex', flexDirection: 'row' }} key={reply._id}>
                                             <RepliedCommentIcon sx={{ transform: 'scaleX(-1) scaleX(0.8)', color: 'grey' }} />
-                                            <Box className={`my-1 border-l-2 ${reply.author?._id === loginToken?.id ? 'border-blue-400' : 'border-gray-400'} bg-gradient-to-tr from-slate-100 to-slate-white`}
+                                            <Box className={`my-1 border-l-2 ${reply.author?._id === loginUserId ? 'border-blue-400' : 'border-gray-400'} bg-gradient-to-tr from-slate-100 to-slate-white`}
                                                 sx={{ mb: 1, pl: 2, pb: 3, display: 'flex', flexDirection: 'column', width: '100%' }}>
                                                 <Box className="postDetail:main:bottom:comments[replyComment]:authorInfo" sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
                                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, borderBottom: '1px solid #CCCCCC', width: '100%', pb: 1 }}>
@@ -119,7 +119,7 @@ const CommentsSection: React.FC<CommentsSectionPropsType> = ({
                                                     </Box>
                                                 </Box>
                                                 <Box className="postDetail:main:bottom:comments[replyComment]:commentHandleButtons" sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                                    {loginToken && (reply.author?._id === loginToken!.id) && (
+                                                    {loginUserId && (reply.author?._id === loginUserId) && (
                                                         <>
                                                             <IconButton sx={{ p: 1, '& svg': { fontSize: 15 } }} onClick={() => {
                                                                 toggleEditForm(reply._id)

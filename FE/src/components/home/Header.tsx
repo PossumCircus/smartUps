@@ -53,8 +53,8 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <AppBar position="static" color="inherit" elevation={0} sx={{ boxShadow: "none" }}>
       <div className="w-full mx-auto max-w-[1280px]">
-        <Toolbar>
-          <Box display="flex" alignItems="center" flexGrow={1}>
+        <Toolbar className="flex justify-between">
+          <Box className="logoAndToggleMenu" display="flex" alignItems="center">
             <div className="sidebarToggle md:hidden">
               <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
                 <MenuIcon />
@@ -70,20 +70,19 @@ const Header: React.FC<HeaderProps> = ({
                 style={{ width: "40px", height: "40px", marginLeft: "16px", marginRight: "16px" }}
               />
             </Link>
-            <div className="searchBar hidden md:block">
-              <Box sx={{ display: "flex", alignItems: "center", border: "1px solid", borderRadius: 1, px: 1, ml: 2, minWidth: "340px", }}>
-                <InputBase
-                  sx={{ ml: 1, flex: 1, color: "inherit" }}
-                  placeholder="Search..."
-                  inputProps={{ "aria-label": "search" }}
-                />
-                <IconButton type="submit" sx={{ p: "10px" }} aria-label="search" onClick={() => alert("준비중입니다.")}>
-                  <SearchIcon />
-                </IconButton>
-              </Box>
-            </div>
           </Box>
-          <Box display="flex" alignItems="center" ml={2}>
+          <Box className="searchBar hidden md:block"
+            sx={{ display: "flex", alignItems: "center", border: "1px solid", borderRadius: 1, px: 1, ml: 2, minWidth: "340px", }} >
+            <InputBase
+              sx={{ ml: 1, flex: 1, color: "inherit" }}
+              placeholder="Search..."
+              inputProps={{ "aria-label": "search" }}
+            />
+            <IconButton type="submit" sx={{ p: "10px" }} aria-label="search" onClick={() => alert("준비중입니다.")}>
+              <SearchIcon />
+            </IconButton>
+          </Box>
+          <Box className="userLogin" display="flex" alignItems="center" ml={2}>
             <div className="md:hidden">
               <IconButton color="inherit" aria-label="search">
                 <SearchIcon />

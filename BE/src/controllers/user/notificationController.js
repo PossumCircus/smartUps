@@ -38,6 +38,22 @@ exports.createNotification = async (req, res, next) => {
     }
 }
 
+exports.setReadNotification = async (req, res, next) => {
+    try {
+        const { notificationId } = req.params
+        const readNotification = await Notification.findByIdAndUpdate(notificationId, { isRead: true, isNewOne : false }, { new: true });
+
+        if (!readNotification) {
+            return res.status(404).json({ error: 'Target notification is not found' });
+        }
+
+        res.status(200).json(readNotification);
+    } catch (error) {
+        console.log(error)
+        next(error);
+    }
+}
+
 exports.deleteNotification = async (req, res, next) => {
     try {
         const { notificationId } = req.params

@@ -15,7 +15,7 @@ interface PostDetailProps {
   handleAddDislike: (event: React.MouseEvent<HTMLButtonElement>) => void;
   handleEditClick: () => void;
   handleDeleteClick: () => void;
-  loginToken: { id: string } | null;
+  loginUserId: string;
 }
 
 const PostDetail: React.FC<PostDetailProps> = ({
@@ -25,7 +25,7 @@ const PostDetail: React.FC<PostDetailProps> = ({
   handleAddDislike,
   handleEditClick,
   handleDeleteClick,
-  loginToken,
+  loginUserId,
 }) => {
   if (isLoading === "loading") {
     return <div>Loading...</div>;
@@ -84,7 +84,7 @@ const PostDetail: React.FC<PostDetailProps> = ({
                 </Box>
                 <Box className="postDetail:main:top[postHandleButtons]" sx={{ display: 'flex', gap: 1 }}>
                   <ShareLinkButton />
-                  {loginToken && loginToken.id === post.author._id && (
+                  {loginUserId && loginUserId === post.author._id && (
                     <>
                       <IconButton onClick={handleEditClick}>
                         <EditIcon />
@@ -120,8 +120,8 @@ const PostDetail: React.FC<PostDetailProps> = ({
                 </Tooltip>
               </Box>
               <Box className="postDetail:main:bottom:comments">
-                {loginToken && <CommentsSubmitForm />}
-                <CommentsSection post={post} loginToken={loginToken} />
+                {loginUserId && <CommentsSubmitForm />}
+                <CommentsSection post={post} loginUserId={loginUserId} />
               </Box>
             </Box>
           </Paper>

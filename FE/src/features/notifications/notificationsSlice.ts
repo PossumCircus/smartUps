@@ -26,11 +26,9 @@ const notificationsSlice = createSlice({
         state.status = 'succeeded'
       })
       .addCase(fetchNotifications.pending, (state, action) => {
-        console.log('pending', action.payload)
         state.status = 'loading'
       })
       .addCase(fetchNotifications.rejected, (state, action) => {
-        console.log('rejected', action.payload)
         state.status = 'failed'
         state.error = "not found notifications(temporal custom error)"
       })

@@ -87,7 +87,7 @@ const RightSection: React.FC = () => {
           </Box>
           <Divider />
           <Box sx={{ p: 2, borderBottom: 1, borderColor: "grey.300" }}>
-            <Typography>나만의 좋은알바 구하는 방법</Typography>
+            <Typography>알바생을 고용하기 전에 알아야 하는 것은?</Typography>
           </Box>
           <Divider />
           <Box sx={{ p: 2, borderColor: "grey.300" }}>

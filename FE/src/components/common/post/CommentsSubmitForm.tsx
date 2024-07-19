@@ -1,7 +1,8 @@
 import React, { useEffect, ChangeEvent, RefObject, useState, useRef, FormEventHandler, FormEvent } from 'react'
-import { useDispatch } from "react-redux";
+import {useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store";
-import { createComment, createReplyComment, editComment } from "../../../features/posts/postsAsyncThunks";
+import { createComment, createReplyComment, editComment } from "../../../features/posts";
+import { selectUser } from '../../../features/users';
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { Box, TextField, Button, Typography } from "@mui/material";
@@ -28,15 +29,7 @@ const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
   const postId = id as string;
-  const token: string | null = localStorage.getItem("token");
-
-  let loginUser: { id: string } | null;
-
-  if (token !== null) {
-    loginUser = jwtDecode<{ id: string }>(token);
-  } else {
-    console.error("Token is null");
-  }
+  const loginUserId = useSelector(selectUser)._id
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (isEditingComment) {
@@ -52,7 +45,7 @@ const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
     if (content.trim() !== '') {
       // 댓글 내용 콘솔에 출력
       console.log('Comment submitted:', content);
-      dispatch(createComment({ postId, author: loginUser!.id, content }))
+      dispatch(createComment({ postId, author: loginUserId, content }))
       // 등록 후 입력 필드 초기화
       setContent("");
 
@@ -65,13 +58,13 @@ const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
       dispatch(createReplyComment({
         postId,
         parentCommentId: targetCommentId,
-        author: loginUser!.id,
+        author: loginUserId,
         content
       }))
       setContent('');
       dispatch(createNotification({
         recipient : commentAuthor as string,
-        sender: loginUser!.id,
+        sender: loginUserId,
         isNewOne : true,
         isRead : false,
         notificationType : 'comment_new_reply'
