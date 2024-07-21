@@ -12,7 +12,6 @@ const HeaderContainer: React.FC = () => {
   const newNotificationsLength = useSelector(selectAllNotifications).filter(content => content.isNewOne === true && content.isRead === false).length
   const [myMenuAnchorEl, setMyMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [myProfileAnchorEl, setMyProfileAnchorEl] = useState<null | HTMLElement>(null);
-
   const handleMyMenuOpen = (event: React.MouseEvent<HTMLButtonElement>): void => {
     setMyMenuAnchorEl(event.currentTarget);
   };

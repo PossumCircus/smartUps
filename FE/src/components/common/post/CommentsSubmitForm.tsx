@@ -52,6 +52,9 @@ const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
     }
   };
 
+  const url = new URL(window.location.href);
+  const path = url.pathname;
+
   const handleReplyCommentSubmit = () => {
     if (content.trim() !== '') {
       console.log('Comment submitted:', content);
@@ -67,7 +70,8 @@ const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
         sender: loginUserId,
         isNewOne : true,
         isRead : false,
-        notificationType : 'comment_new_reply'
+        notificationType : 'comment_new_reply',
+        link : path
       }))
     }
   };

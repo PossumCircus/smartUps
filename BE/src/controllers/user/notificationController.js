@@ -27,9 +27,8 @@ exports.createNotification = async (req, res, next) => {
         const recipientId = creationData.recipient
         const senderId = creationData.sender
 
-        await Notification.create(creationData);
-
-        const sender = await User.findById(senderId)
+        const newNotification = await Notification.create(creationData);
+        console.log(newNotification)
         // Optional: If you want a new notification indicator on the User 
         await User.findByIdAndUpdate(recipientId, { $inc: { newNotificationsCount: 1 } });
     } catch (error) {

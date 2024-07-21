@@ -13,13 +13,14 @@ import { selectUser } from "../../users/"
 import { AppDispatch } from "../../../app/store"
 import { Check as CheckIcon, ArrowForward as ArrowForwardIcon, Clear as ClearIcon, Refresh as RefreshIcon } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
+import { useNavigate } from "react-router-dom"
 const NotificationsList: React.FC<any> = () => {
   const dispatch = useDispatch<AppDispatch>();
   const notifications = useSelector(selectAllNotifications)
   const statusState = useSelector(notificationsStatus)
   const errorState = useSelector(notificationsError)
   const loginUserId = useSelector(selectUser)._id
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (statusState === 'idle') {
       handleRefreshNotification();
@@ -37,30 +38,34 @@ const NotificationsList: React.FC<any> = () => {
   const handleNotificationRead = (notificationId: string) => {
     dispatch(setReadNotification({ notificationId }))
   }
-
   const handleNotificationRemove = (notificationId: string) => {
     dispatch(deleteNotification(notificationId))
     window.location.reload()
   }
-
+  const handleNavigateToLink = (url: string) => {
+    navigate(url);
+  }
   const NotificationsRender = () => {
     return (
       notifications.map((notification, index) => {
         const date = parseISO(notification.createdAt)
         const timeAgo = formatDistanceToNow(date)
         return (
-          <div key={`${notification._id}-${index}`} className="notification w-[27%] border-sky-200 border-2 my-1 p-1">
+          <div key={`${notification._id}-${index}`} className={`notification w-[27%] ${notification.isRead ? 'bg-white' : 'bg-gradient-to-r from-sky-100'} border-2 my-1 p-1`}>
             <div>
               <div className="flex justify-between">
                 {NotificationTypeRender(notification.notificationType)}
                 <div className='-space-x-3 -mt-2'>
-                  <IconButton onClick={() => handleNotificationRead(notification._id)}>
+                  <IconButton onClick={() => handleNotificationRead(notification._id)} disabled={notification.isRead ? true : false}>
                     <CheckIcon />
                   </IconButton>
                   <IconButton onClick={() => handleNotificationRemove(notification._id)}>
                     <ClearIcon />
                   </IconButton>
-                  <IconButton>
+                  <IconButton onClick={() => {
+                    handleNavigateToLink(notification.link as string)
+                    handleNotificationRead(notification._id)
+                  }}>
                     <ArrowForwardIcon />
                   </IconButton>
                 </div>
