@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-// Layouts
 import MainLayout from "./layouts/MainLayout";
 // Pages
 import {
@@ -11,8 +10,6 @@ import {
   EditPage,
   AuthPage,
   UserProfilePage,
-  UserProfileEditPage,
-  OtherUserProfilePage,
   NotificationsPage,
   EditPostPage,
 } from "./pages";
@@ -51,9 +48,7 @@ const App: React.FC = () => {
             <Route path={routes.edit} element={<EditPage />} />
             <Route path="edit/post/:id" element={<EditPostPage />} />
             {loginUser && <Route path={routes.userProfile} element={<UserProfilePage />} />}
-            {loginUser && <Route path={routes.userProfileEdit} element={<UserProfileEditPage />} />}
             {loginUser && <Route path={routes.notifications} element={<NotificationsPage />} />}
-            {loginUser && <Route path={routes.otherUserProfile} element={<OtherUserProfilePage />} />}
             <Route path="*" element={<NotFoundPage />} />
           </Route>
           <Route path={routes.auth} element={<AuthPage />} />

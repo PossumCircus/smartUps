@@ -13,7 +13,6 @@ import {
     postsStatus,
     postsError,
 } from "./postsSelectors";
-
 export {
     // posts components
     // redux async thunk function

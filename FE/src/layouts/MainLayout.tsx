@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Header from "../containers/home/HeaderContainer";
+import Header from "../features/home/containers/HeaderContainer";
 import { Box } from "../styles/mui/index";
 
 const MainLayout: React.FC = () => {
