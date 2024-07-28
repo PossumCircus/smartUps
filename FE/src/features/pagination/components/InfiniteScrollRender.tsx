@@ -1,12 +1,11 @@
 import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { krTimeConvert } from "../../../utils";
-import { fetchInfiniteScrollPosts } from "../../../features/posts/postsAsyncThunks";
+import { fetchInfiniteScrollPosts, increaseViewsCount } from "../../posts/postsAsyncThunks";
 import { useDispatch } from "react-redux";
-import { useInfiniteScroll } from "../../../hooks";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
 import { AppDispatch } from "../../../app/store";
 import { PostDataType, PaginatedPostsResponseDataType } from "../../../types/postsType";
-import { increaseViewsCount } from "../../../features/posts/postsAsyncThunks";
 
 const POST_SIZE = 150; // post div card height
 const PAGE_SIZE =

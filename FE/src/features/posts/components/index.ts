@@ -7,8 +7,8 @@ import PostsListContainer from "../containers/PostsListContainer";
 import ShareLinkButton from "./ShareLinkButtons";
 
 // pagination ui
-import Pagination from "../../../components/common/pagination/Pagination";
-import InfiniteScrollRender from "../../../components/common/pagination/InfiniteScrollRender";
+import Pagination from "../../pagination/components/Pagination";
+import InfiniteScrollRender from "../../pagination/components/InfiniteScrollRender";
 
 // main aside ui
 import HotTopicPostsList from "./HotTopicPostsList";

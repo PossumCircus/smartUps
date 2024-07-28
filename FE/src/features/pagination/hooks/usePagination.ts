@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import useGetQuery from './useGetQuery';
-import { PaginationOptionsDataType } from "../types/commonType";
+import { useGetQuery } from '../../../hooks';
+import { PaginationOptionsDataType } from "../../../types/commonType";
 
 export default function usePagination(dataLength: number, itemCount: number)
     : [
@@ -22,8 +22,7 @@ export default function usePagination(dataLength: number, itemCount: number)
     }, [dataLength, itemCount])
 
     const paginationOptions: PaginationOptionsDataType = {
-        // 페이지네이션 한 그룹당 보여줄 페이지 수
-        pageCountPerGroup: 5,
+        pageCountPerGroup: 5, // 페이지네이션 한 그룹당 보여줄 페이지 수
         currentPage: page && parseInt(page) > 0 ? parseInt(page) : 1,
         totalPage: Math.ceil(totalDataLength / itemCountPerPage),
         itemCountPerPage

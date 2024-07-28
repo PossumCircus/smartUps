@@ -5,8 +5,8 @@ import {
   Pagination,
   PostsMenu,
   PostsTopicNav,
-  UserFavorites,
 } from "./index";
+import PaginationContainer from "../../pagination/containers/PaginationContainer";
 import { PaginationOptionsDataType } from "../../../types/commonType";
 
 interface PostsListPropsType {
@@ -53,7 +53,7 @@ const PostsMain: React.FC<PostsListPropsType> = ({
         {/* pagination OR infinite scroll */}
         {!isInfinite && (
           <div>
-            <Pagination
+            <PaginationContainer
               totalPage={paginationOptions.totalPage}
               pageCountPerGroup={paginationOptions.pageCountPerGroup}
               currentPage={paginationOptions.currentPage}

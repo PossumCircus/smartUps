@@ -1,6 +1,7 @@
 import PostsMain from "../../components/PostsMain";
 import { useEffect, useState } from "react";
-import { usePagination, useGetQuery } from "../../../../hooks";
+import { useGetQuery } from "../../../../hooks";
+import { usePagination } from "../../../pagination/hooks"
 import { selectAllPosts } from "../../postsSelectors";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../users";
@@ -18,8 +19,8 @@ export default function CommunityMainContainer() {
   const loginUser = useSelector(selectUser)._id
 
   // setItemCountPerPage는 추후 버튼으로 이용자가 페이지당 보고 싶은 게시글 수 조절에 사용도 가능.
-  // 첫 번째 인자로 데이터의 length값을 부여 해줘야함. 현재 임시값.
-  // 두 번째 인자로 페이지 당 보여줄 포스트의 숫자를 지정.
+  // 첫 번째 인자로 데이터의 length값을 부여 해줘야함(dataLength). 현재 임시값. 
+  // 두 번째 인자로 페이지 당 보여줄 포스트의 숫자를 지정(itemCount).
   const [setTotalDataLength, setItemCountPerPage, paginationOptions] = usePagination(5, 10);
 
   const [isInfinite, setIsInfinite] = useState(false);
@@ -32,7 +33,8 @@ export default function CommunityMainContainer() {
     { path: "/community?topic=free", section: "자유 주제" },
     { path: "/community?topic=game", section: "게임" },
   ];
-  const posts = useSelector(selectAllPosts);
+
+  const posts = useSelector(selectAllPosts)
 
   useEffect(() => {
     // setTotalDataLength(posts.filter(post => post.category === 'community').length)
@@ -56,7 +58,7 @@ export default function CommunityMainContainer() {
       paginationOptions={paginationOptions}
       isInfinite={isInfinite}
       topic={topic}
-      handleWriteClick={handleWriteClick} //0624 김세준 추가
+      handleWriteClick={handleWriteClick}
     />
   );
 }
