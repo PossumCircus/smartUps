@@ -16,10 +16,10 @@ type CommentsSectionPropsType = {
     post: PostDataType;
 }
 
-const CommentsSection: React.FC<CommentsSectionPropsType> = ({
+export default function CommentsSection({
     loginUserId,
     post
-}) => {
+}:CommentsSectionPropsType){
     const [replyFormStates, setReplyFormStates] = useState<FormType>({}); // 각 댓글에 대한 ReplyForm 표시 상태를 관리
     const [isReplyComment, setIsReplyComment] = useState<boolean>(false)
     const [editFormStates, setEditFormStates] = useState<FormType>({}); // 각 댓글에 대한 ReplyForm 표시 상태를 관리
@@ -155,5 +155,3 @@ const CommentsSection: React.FC<CommentsSectionPropsType> = ({
         </Container >
     )
 }
-
-export default CommentsSection;

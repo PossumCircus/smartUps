@@ -1,5 +1,5 @@
 import React from "react";
-import routes from "../../../constants/routes";
+import routes from "../../constants/routes";
 import {
   Button,
   AppBar,
@@ -11,14 +11,11 @@ import {
   Menu,
   MenuItem,
   Drawer,
-} from "../../../styles/mui/index";
+} from "../../styles/mui/index";
 import { Link } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
-import MenuIcon from "@mui/icons-material/Menu";
-import DarkModeToggle from "../../theme/containers/DarkModeToggleContainer";
-import PersonIcon from "@mui/icons-material/Person";
-import MailIcon from "@mui/icons-material/Mail";
-import MobileSidebar from "./MobileSidebar";
+import { Search as SearchIcon, Menu as MenuIcon, Person as PersonIcon, Mail as MailIcon } from "@mui/icons-material"
+import DarkModeToggle from "../../features/theme/containers/DarkModeToggleContainer";
+import HeaderHamburgerButton from "./HeaderHamburgerButton";
 
 interface HeaderProps {
   open: boolean;
@@ -29,13 +26,13 @@ interface HeaderProps {
   handleMyProfileOpen: (event: React.MouseEvent<HTMLLIElement>) => void;
   handleMyProfileClose: () => void;
   toggleDrawer: (newOpen: boolean) => () => void;
-  loginUser: string | null;
+  loginUserId: string | null;
   handleLogOut: () => void;
   newNotificationsLength: number;
   handleNavigateToNotification: () => void
 }
 
-const Header: React.FC<HeaderProps> = ({
+export default function Header({
   myMenuAnchorEl,
   handleMyMenuOpen,
   handleMyMenuClose,
@@ -44,11 +41,11 @@ const Header: React.FC<HeaderProps> = ({
   handleMyProfileClose,
   toggleDrawer,
   open,
-  loginUser,
+  loginUserId,
   handleLogOut,
   newNotificationsLength,
   handleNavigateToNotification
-}) => {
+}: HeaderProps) {
   return (
     <AppBar position="static" color="inherit" elevation={0} sx={{ boxShadow: "none" }}>
       <div className="w-full mx-auto max-w-[1280px]">
@@ -59,7 +56,7 @@ const Header: React.FC<HeaderProps> = ({
                 <MenuIcon />
               </IconButton>
               <Drawer open={open} onClose={toggleDrawer(false)}>
-                <MobileSidebar toggleDrawer={toggleDrawer} />
+                <HeaderHamburgerButton toggleDrawer={toggleDrawer} />
               </Drawer>
             </div>
             <Link to="/" className="logoButton">
@@ -88,7 +85,7 @@ const Header: React.FC<HeaderProps> = ({
               </IconButton>
             </div>
             <DarkModeToggle />
-            {loginUser ?
+            {loginUserId ?
               (
                 <div>
                   <IconButton onClick={handleNavigateToNotification}>
@@ -151,5 +148,3 @@ const Header: React.FC<HeaderProps> = ({
     </AppBar>
   );
 };
-
-export default Header;

@@ -1,9 +1,6 @@
 import {
   Banner,
-  HotTopicPostsList,
   PostsListContainer,
-  Pagination,
-  PostsMenu,
   PostsTopicNav,
 } from "./index";
 import PaginationContainer from "../../pagination/containers/PaginationContainer";
@@ -19,7 +16,7 @@ interface PostsListPropsType {
   handleWriteClick: () => void;
 }
 
-const PostsMain: React.FC<PostsListPropsType> = ({
+export default function PostsMain({
   category,
   categoryDescription,
   navPaths,
@@ -27,19 +24,15 @@ const PostsMain: React.FC<PostsListPropsType> = ({
   isInfinite,
   topic,
   handleWriteClick,
-}) => {
+}: PostsListPropsType) {
   return (
     <div className="communityHome flex flex-row mt-4 mx-4 space-x-4 max-md:mx-8 max-lg:justify-between lg:justify-center">
-      {/* <section className="leftSection-userCustom max-lg:hidden">
-                <UserFavorites />
-            </section> */}
       <div className="middleSection-post flex flex-col max-lg:w-full lg:w-[50dvw] ">
         <header>
           <Banner category={category} categoryDescription={categoryDescription} />
         </header>
         <nav className="divide-y-2">
           <PostsTopicNav navPaths={navPaths} topic={topic} handleWriteClick={handleWriteClick} />
-          {/* <PostsMenu category={category} /> */}
         </nav>
         <section className="">
           <PostsListContainer
@@ -61,14 +54,6 @@ const PostsMain: React.FC<PostsListPropsType> = ({
           </div>
         )}
       </div>
-      {/* <section className="rightSection-topic flex flex-col w-[20dvw] border-2 h-64 max-sm:hidden max-md:w-[30dvw] lg:w-[15dvw]">
-        <div><HotTopicPostsList /></div>
-        <div className="lg:hidden">
-          <UserFavorites />
-        </div>
-      </section> */}
     </div>
   );
 };
-
-export default PostsMain;

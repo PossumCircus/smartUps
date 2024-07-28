@@ -1,4 +1,3 @@
-import React from 'react'
 import PostsList from "../components/PostsList"
 import { usePostsRenderByTopic, usePostsPayloadValidation } from "../hooks"
 import { postsError, postsStatus, selectPostsByCategory } from "../postsSelectors"
@@ -14,8 +13,7 @@ interface PostsListContainerProps {
     isInfinite: boolean;
 }
 
-const PostsListContainer: React.FC<PostsListContainerProps> = ({ category, topic, itemCountPerPage, currentPage }) => {
-
+export default function PostsListContainer({ category, topic, itemCountPerPage, currentPage } : PostsListContainerProps){
     const status = useSelector((state: RootState) => postsStatus(state))
     const error = useSelector((state: RootState) => postsError(state))
     const posts = useSelector((state: RootState) => selectPostsByCategory(state, category))
@@ -40,4 +38,3 @@ const PostsListContainer: React.FC<PostsListContainerProps> = ({ category, topic
     )
 }
 
-export default PostsListContainer

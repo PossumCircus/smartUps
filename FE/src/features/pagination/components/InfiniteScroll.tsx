@@ -13,7 +13,7 @@ const PAGE_SIZE =
     ? 100
     : Math.ceil(visualViewport.width / POST_SIZE)) * 10;
 
-const InfiniteScrollRender: React.FC<PaginatedPostsResponseDataType> = () => {
+export default function InfiniteScroll() {
   const [page, setPage] = useState(0);
   const [posts, setPosts] = useState<PostDataType[]>([]);
   const [hasNextPage, setNextPage] = useState(true);
@@ -80,5 +80,3 @@ const InfiniteScrollRender: React.FC<PaginatedPostsResponseDataType> = () => {
     </div>
   );
 };
-
-export default InfiniteScrollRender;

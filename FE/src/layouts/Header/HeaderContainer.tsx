@@ -1,17 +1,20 @@
-import Header from "../components/Header";
+import Header from "./Header";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logOut, selectUser } from "../../users";
-import { AppDispatch } from "../../../app/store";
-import { selectAllNotifications } from "../../notifications";
-const HeaderContainer: React.FC = () => {
+import { logOut, selectUser } from "../../features/users";
+import { AppDispatch } from "../../app/store";
+import { selectAllNotifications } from "../../features/notifications";
+
+export default function HeaderContainer(){
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>()
-  const loginUser = useSelector(selectUser)._id
+  const loginUserId = useSelector(selectUser)._id
   const newNotificationsLength = useSelector(selectAllNotifications).filter(content => content.isNewOne === true && content.isRead === false).length
   const [myMenuAnchorEl, setMyMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [myProfileAnchorEl, setMyProfileAnchorEl] = useState<null | HTMLElement>(null);
+  const [open, setOpen] = React.useState(false);
+
   const handleMyMenuOpen = (event: React.MouseEvent<HTMLButtonElement>): void => {
     setMyMenuAnchorEl(event.currentTarget);
   };
@@ -30,7 +33,6 @@ const HeaderContainer: React.FC = () => {
     setMyProfileAnchorEl(null)
   }
 
-  const [open, setOpen] = React.useState(false);
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -55,12 +57,10 @@ const HeaderContainer: React.FC = () => {
       handleMyProfileOpen={handleMyProfileOpen}
       handleMyProfileClose={handleMyProfileClose}
       open={open}
-      loginUser={loginUser}
+      loginUserId={loginUserId}
       handleLogOut={handleLogOut}
       newNotificationsLength={newNotificationsLength}
       handleNavigateToNotification={handleNavigateToNotification}
     />
   );
 };
-
-export default HeaderContainer;

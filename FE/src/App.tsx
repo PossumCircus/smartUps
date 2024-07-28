@@ -24,7 +24,7 @@ import { selectUser } from "./features/users";
 
 const App: React.FC = () => {
   const themeMode = useSelector(selectTheme);
-  const loginUser: string | undefined = useSelector(selectUser)?._id
+  const loginUserId: string | undefined = useSelector(selectUser)?._id
 
   const theme = createTheme({
     palette: {
@@ -47,8 +47,8 @@ const App: React.FC = () => {
             <Route path={routes.postDetail} element={<PostDetailPage />} />
             <Route path={routes.edit} element={<EditPage />} />
             <Route path="edit/post/:id" element={<EditPostPage />} />
-            {loginUser && <Route path={routes.userProfile} element={<UserProfilePage />} />}
-            {loginUser && <Route path={routes.notifications} element={<NotificationsPage />} />}
+            {loginUserId && <Route path={routes.userProfile} element={<UserProfilePage />} />}
+            {loginUserId && <Route path={routes.notifications} element={<NotificationsPage />} />}
             <Route path="*" element={<NotFoundPage />} />
           </Route>
           <Route path={routes.auth} element={<AuthPage />} />

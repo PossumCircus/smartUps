@@ -16,7 +16,7 @@ interface PostsListProps {
   clickPostHandler: (postId: string) => void;
 }
 
-const PostsList: React.FC<PostsListProps> = ({
+export default function PostsList({
   itemCountPerPage,
   currentPage,
   topic,
@@ -26,7 +26,7 @@ const PostsList: React.FC<PostsListProps> = ({
   postsByTopic,
   isPostsValid,
   clickPostHandler,
-}) => {
+}: PostsListProps) {
   return (
     <>
       {status === "loading" && <div>Loading...</div>}
@@ -104,5 +104,3 @@ const PostsList: React.FC<PostsListProps> = ({
     </>
   );
 };
-
-export default PostsList;

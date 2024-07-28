@@ -1,7 +1,6 @@
-import React from "react";
-import { Box, Paper, Typography, Divider } from "../../../styles/mui/index";
+import { Box, Paper, Typography, Divider } from "../../../../styles/mui/index";
 
-const RightSection: React.FC = () => {
+export default function RightAsideSection(){
   return (
     <Box
       sx={{
@@ -98,5 +97,3 @@ const RightSection: React.FC = () => {
     </Box>
   );
 };
-
-export default RightSection;

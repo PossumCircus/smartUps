@@ -18,8 +18,7 @@ export default function Pagination({
     return (
         <div className="flex justify-center items-center my-4 text-[#888] text-sm">
             <ul className="list-none flex flex-row">
-                <li key="prev" className={`custom_pagination_li custom_pagination_move ${noPrevPage ? 'invisible' : ''}`}
-                >
+                <li key="prev" className={`custom_pagination_li custom_pagination_move ${noPrevPage ? 'invisible' : ''}`}>
                     <Link to={`?page=${startingPage - 1}`} className="h-6 leading-6">이전</Link>
                 </li>
                 {[...Array(pageCountPerGroup)].map((_, i) =>

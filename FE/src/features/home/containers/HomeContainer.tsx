@@ -7,12 +7,12 @@ import { useSelector, useDispatch } from "react-redux"
 import { AppDispatch } from "../../../app/store";
 import { notificationsStatus, fetchNotifications } from "../../notifications";
 import { selectUser } from "../../users";
-const HomeContainer: React.FC = () => {
+
+export default function HomeContainer(){
   const [allPosts, setAllPosts] = useState<PostDataType[]>([]);
   const [visiblePosts, setVisiblePosts] = useState<PostDataType[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
   const dispatch = useDispatch<AppDispatch>();
   const statusState = useSelector(notificationsStatus)
   const loginUserId = useSelector(selectUser)._id
@@ -24,7 +24,7 @@ const HomeContainer: React.FC = () => {
     }
   }, [statusState, dispatch])
 
-  //바꿔야함
+  //인피니티 스크롤 함수 재정립 필요
   const fetchPosts = useCallback(async () => {
     try {
       const response = await axios.get<PostDataType[]>(`${process.env.REACT_APP_POST_API_URL}/gettenposts?page=${currentPage}`);
@@ -62,11 +62,9 @@ const HomeContainer: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const handlePostClick = (id: string) => {
-    navigate(`posts/${id}`);
+  const handleNavigateToPost = (postId: string) => {
+    navigate(`posts/${postId}`);
   };
 
-  return <Home displayedPosts={visiblePosts} isLoading={isLoading} onClickPost={handlePostClick} />;
+  return <Home posts={visiblePosts} isLoading={isLoading} handleNavigateToPost={handleNavigateToPost} />;
 };
-
-export default HomeContainer;

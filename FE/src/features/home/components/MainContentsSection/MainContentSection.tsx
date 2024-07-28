@@ -1,15 +1,14 @@
 import React from "react";
-import { PostDataType } from "../../../types/postsType";
-
+import { PostDataType } from "../../../../types/postsType";
 import PostCard from "./PostCard";
 
-interface MainContentSectionProps {
-  displayedPosts: PostDataType[];
+type MainContentsSectionProps = {
+  posts: PostDataType[];
   isLoading: boolean;
-  onClickPost: (id: string) => void;
+  handleNavigateToPost: (postId: string) => void;
 }
 
-const MainContentSection: React.FC<MainContentSectionProps> = ({ displayedPosts, isLoading, onClickPost }) => {
+export default function MainContentsSection({ posts, isLoading, handleNavigateToPost }: MainContentsSectionProps) {
   return (
     <section className="grow gap-y-10 pb-10 ">
       <div className="container">
@@ -17,10 +16,10 @@ const MainContentSection: React.FC<MainContentSectionProps> = ({ displayedPosts,
           {isLoading ? (
             <div> Loading ...</div>
           ) : (
-            displayedPosts.map((post, i) => (
+            posts.map((post, i) => (
               // post._id 키값이 중복된다고 오류가 발생해서 key값을 i 로 설정
               // <PostCard post={post} key={post._id} onClick={onClickPost} />
-              <PostCard post={post} key={i} onClick={onClickPost} />
+              <PostCard post={post} key={i} handleNavigateToPost={handleNavigateToPost} />
             ))
           )}
         </article>
@@ -28,5 +27,3 @@ const MainContentSection: React.FC<MainContentSectionProps> = ({ displayedPosts,
     </section>
   );
 };
-
-export default MainContentSection;

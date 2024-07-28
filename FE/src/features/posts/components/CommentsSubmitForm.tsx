@@ -1,35 +1,37 @@
-import React, { useEffect, ChangeEvent, RefObject, useState, useRef, FormEventHandler, FormEvent } from 'react'
-import {useSelector, useDispatch } from "react-redux";
+import { ChangeEvent, useState, useRef, FormEvent } from 'react'
+import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store";
 import { createComment, createReplyComment, editComment } from "..";
 import { selectUser } from '../../users';
-import { useParams } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { useParams, useNavigate } from "react-router-dom";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { createNotification } from '../../notifications';
 
 type CommentsSubmitFormPropsType = {
   isReplyComment?: boolean;
   isEditingComment?: boolean;
-  commentAuthor? : string;
+  commentAuthor?: string;
   prevComment?: string;
   targetCommentId?: string
 }
 
-const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
+export default function CommentsSubmitForm({
   isReplyComment,
   isEditingComment,
   commentAuthor,
   prevComment,
   targetCommentId
-}) => {
+}: CommentsSubmitFormPropsType) {
   const [content, setContent] = useState<string>('');
   const [editContent, setEditContent] = useState<string>(prevComment as string);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate()
   const { id } = useParams<{ id: string }>();
   const postId = id as string;
   const loginUserId = useSelector(selectUser)._id
+  const url = new URL(window.location.href);
+  const path = url.pathname;
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (isEditingComment) {
@@ -43,17 +45,10 @@ const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
 
   const handleCommentSubmit = () => {
     if (content.trim() !== '') {
-      // 댓글 내용 콘솔에 출력
-      console.log('Comment submitted:', content);
       dispatch(createComment({ postId, author: loginUserId, content }))
-      // 등록 후 입력 필드 초기화
-      setContent("");
-
+      setContent(""); // 등록 후 입력 필드 초기화
     }
   };
-
-  const url = new URL(window.location.href);
-  const path = url.pathname;
 
   const handleReplyCommentSubmit = () => {
     if (content.trim() !== '') {
@@ -66,12 +61,12 @@ const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
       }))
       setContent('');
       dispatch(createNotification({
-        recipient : commentAuthor as string,
+        recipient: commentAuthor as string,
         sender: loginUserId,
-        isNewOne : true,
-        isRead : false,
-        notificationType : 'comment_new_reply',
-        link : path
+        isNewOne: true,
+        isRead: false,
+        notificationType: 'comment_new_reply',
+        link: path
       }))
     }
   };
@@ -99,6 +94,10 @@ const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
     window.location.reload()
   }
 
+  const handleTextfieldClick = () => {
+    if (!loginUserId) navigate("/auth?mode=login")
+  }
+
   return (
     <Box className="comments-textarea" component="section" sx={{ mt: 2 }}>
       <form onSubmit={(e) => handleSubmit(e)}>
@@ -110,10 +109,11 @@ const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
         <TextField
           id="comment"
           name="comment"
-          placeholder="건전한 댓글 문화를 지향 해주세요"
+          placeholder={`${loginUserId ? '건전한 댓글 문화를 지향 해주세요' : '로그인이 필요한 기능입니다.'}`}
           inputRef={textareaRef}
           value={isEditingComment ? editContent : content}
           onChange={handleChange}
+          onClick={handleTextfieldClick}
           multiline
           rows={4}
           variant="outlined"
@@ -145,5 +145,3 @@ const CommentsSubmitForm: React.FC<CommentsSubmitFormPropsType> = ({
     </Box >
   );
 }
-
-export default CommentsSubmitForm;

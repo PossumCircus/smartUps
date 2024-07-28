@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import FilterListIcon from "@mui/icons-material/FilterList"; 
+import FilterListIcon from "@mui/icons-material/FilterList";
 import { Box, Button, Menu, MenuItem, IconButton, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface NavPathType {
   path: string;
@@ -45,11 +45,7 @@ export default function PostsTopicNav({ navPaths, topic, handleWriteClick }: Pos
                 <Box key={index} component="ul" m={0} p={0}>
                   <Box component="li">
                     <Link to={v.path} style={{ textDecoration: "none" }}>
-                      <Typography
-                        sx={{
-                          borderBottom: isActive || isAllView ? "2px solid orange" : "none",
-                        }}
-                      >
+                      <Typography sx={{ borderBottom: isActive || isAllView ? "2px solid orange" : "none", }}>
                         {v.section}
                       </Typography>
                     </Link>
@@ -58,7 +54,7 @@ export default function PostsTopicNav({ navPaths, topic, handleWriteClick }: Pos
               );
             })}
         </Box>
-
+        {/* filter menu below */}
         <Box position="relative" zIndex="50" display={{ xs: "none", sm: "block" }}>
           <IconButton onClick={handleClick} sx={{ px: 2, py: 1, borderRadius: 0 }}>
             <FilterListIcon style={{ width: "20px", height: "20px" }} />

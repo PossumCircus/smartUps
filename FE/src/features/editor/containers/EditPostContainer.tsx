@@ -45,7 +45,7 @@ const EditPostContainer: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const fetchedPost: PostDataType | undefined = useSelector((state: RootState) => selectSinglePostById(state, postId));
   const selectedPost = useMemo(() => fetchedPost, [fetchedPost]);
-  const loginUser = useSelector(selectUser)._id
+  const loginUserId = useSelector(selectUser)._id
 
   useEffect(() => {
     if (selectedPost) {
@@ -108,7 +108,7 @@ const EditPostContainer: React.FC = () => {
     }
 
     const requestBody = {
-      author: loginUser,
+      author: loginUserId,
       topic: selectedTopic,
       title,
       hashtags: hashTags,

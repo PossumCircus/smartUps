@@ -69,17 +69,7 @@ export default function ShareLinkButtons() {
           <span>클릭해서 공유하기</span>
           <Box sx={{ display: "flex", marginTop: 1, justifyItems: "center", alignItems: "center", width: "100%" }}>
             <CopyToClipboard text={url}>
-              <IconButton
-                sx={{
-                  width: 40,
-                  height: 40,
-                  backgroundColor: "skyblue",
-                  borderRadius: "50%",
-                }}
-                onClick={() => {
-                  alert("복사완료!");
-                }}
-              >
+              <IconButton sx={{ width: 40, height: 40, backgroundColor: "skyblue", borderRadius: "50%", marginRight: 1 }} onClick={() => { alert("복사완료!"); }}>
                 <LinkIcon />
               </IconButton>
             </CopyToClipboard>

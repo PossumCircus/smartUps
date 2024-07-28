@@ -1,12 +1,10 @@
 import React from "react";
 import { ShareLinkButton } from "./index";
-import { PostDataType, PostsStateType, CommentDataType } from "../../../types/postsType";
+import { PostDataType, PostsStateType } from "../../../types/postsType";
 import { krTimeConvert } from "../../../utils";
-import CommentsSubmitForm from "./CommentsSubmitForm";
-import CommentsSection from "./CommentsSection";
-import { Edit as EditIcon, Delete as DeleteIcon, ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon, Person as PersonIcon } from '@mui/icons-material';
+import { CommentsSection, CommentsSubmitForm } from "./index";
+import { Edit as EditIcon, Delete as DeleteIcon, ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon, Person as PersonIcon, Visibility, Comment } from '@mui/icons-material';
 import { Box, Container, Paper, Typography, Avatar, Divider, IconButton, Chip, Tooltip } from '@mui/material';
-import { Visibility, Comment } from '@mui/icons-material';
 
 interface PostDetailProps {
   post: PostDataType | undefined;
@@ -18,7 +16,7 @@ interface PostDetailProps {
   loginUserId: string;
 }
 
-const PostDetail: React.FC<PostDetailProps> = ({
+export default function PostDetail({
   post,
   isLoading,
   handleAddLike,
@@ -26,7 +24,7 @@ const PostDetail: React.FC<PostDetailProps> = ({
   handleEditClick,
   handleDeleteClick,
   loginUserId,
-}) => {
+}: PostDetailProps) {
   if (isLoading === "loading") {
     return <div>Loading...</div>;
   }
@@ -43,8 +41,7 @@ const PostDetail: React.FC<PostDetailProps> = ({
         {paragraph.children[0].text}
       </Typography>
     ));
-    console.log(loginUserId)
-    console.log(post.author._id)
+
     return (
       <Box className="postDetailWrapper" sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', justifyContent: 'center', alignItems: 'center', }}      >
         <Container
@@ -121,7 +118,7 @@ const PostDetail: React.FC<PostDetailProps> = ({
                 </Tooltip>
               </Box>
               <Box className="postDetail:main:bottom:comments">
-                {loginUserId && <CommentsSubmitForm />}
+                <CommentsSubmitForm />
                 <CommentsSection post={post} loginUserId={loginUserId} />
               </Box>
             </Box>
@@ -131,11 +128,9 @@ const PostDetail: React.FC<PostDetailProps> = ({
           className="postDetail:footer"
           component="footer"
           sx={{ py: 2, textAlign: 'center', mt: 'auto', backgroundColor: 'grey.200', }}>
-          <Typography variant="body2">© 2024 Your Company. All rights reserved.</Typography>
+          <Typography variant="body2">© 2024 SmartUp. All rights reserved.</Typography>
         </Box>
       </Box>
     );
   }
 };
-
-export default PostDetail;

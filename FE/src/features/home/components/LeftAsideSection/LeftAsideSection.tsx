@@ -1,16 +1,16 @@
-import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { Box, Paper, Typography, Button, Link, List } from "../../../styles/mui/index";
-import NavLinkItem from "./SidebarLink";
+import { Box, Paper, Typography, Button, Link, List } from "../../../../styles/mui/index";
+import BoardNav from "./BoardNav";
 import { useTheme } from "@mui/material/styles";
-import routes from "../../../constants/routes";
-import { HomeIcon, Groups, QuestionMark } from "../../../styles/muiIcon/index";
+import routes from "../../../../constants/routes";
+import { HomeIcon, Groups, QuestionMark } from "../../../../styles/muiIcon/index";
 import { useSelector } from "react-redux";
-import { selectUser } from "../../users";
-const DesktopSidebarSection: React.FC = () => {
+import { selectUser } from "../../../users";
+
+export default function LeftAsideSection(){
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
-  const loginUser = useSelector(selectUser)._id
+  const loginUserId = useSelector(selectUser)._id
   return (
     <Box sx={{ display: { xs: "none", md: "block" } }}>
       <aside>
@@ -28,7 +28,7 @@ const DesktopSidebarSection: React.FC = () => {
             스마트업에 어서 오세요
           </Typography>
           <Typography>회원가입을 하여 더 많은 정보를 얻어보세요!</Typography>
-          {loginUser ? null : (
+          {loginUserId ? null : (
             <Box sx={{ mt: 4, display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
               <Link component={RouterLink} to={routes.signup} sx={{ width: "100%" }}>
                 <Button
@@ -69,17 +69,14 @@ const DesktopSidebarSection: React.FC = () => {
             </Box>
           )}
         </Paper>
-
         <nav>
           <List sx={{ mt: 2 }}>
-            <NavLinkItem to={routes.home} icon={<HomeIcon />} label="홈" iconColor="#0091ea" />
-            <NavLinkItem to={routes.community} icon={<Groups />} label="커뮤니티" iconColor="#ff9800" />
-            <NavLinkItem to={routes.qna} icon={<QuestionMark />} label="Q&A" iconColor="#f44336" />
+            <BoardNav to={routes.home} icon={<HomeIcon />} label="홈" iconColor="#0091ea" />
+            <BoardNav to={routes.community} icon={<Groups />} label="커뮤니티" iconColor="#ff9800" />
+            <BoardNav to={routes.qna} icon={<QuestionMark />} label="Q&A" iconColor="#f44336" />
           </List>
         </nav>
       </aside>
     </Box>
   );
 };
-
-export default DesktopSidebarSection;

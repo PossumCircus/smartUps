@@ -16,7 +16,7 @@ export default function CommunityMainContainer() {
     topic = getTopic;
   } else topic = "";
 
-  const loginUser = useSelector(selectUser)._id
+  const loginUserId = useSelector(selectUser)._id
 
   // setItemCountPerPage는 추후 버튼으로 이용자가 페이지당 보고 싶은 게시글 수 조절에 사용도 가능.
   // 첫 번째 인자로 데이터의 length값을 부여 해줘야함(dataLength). 현재 임시값. 
@@ -42,7 +42,7 @@ export default function CommunityMainContainer() {
   }, [posts]);
 
   const handleWriteClick = () => {
-    if (loginUser) {
+    if (loginUserId) {
       navigate("/edit");
     } else {
       alert("로그인이 필요합니다.");

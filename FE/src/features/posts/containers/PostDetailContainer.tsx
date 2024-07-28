@@ -1,29 +1,24 @@
-// 특정 게시물의 postId(서버측 _id)를 받아와서 데이터를 랜더링하는 컨테이너입니다. 따라서 특정 category에 종속되지 않고 common한 컨테이너입니다.
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import PostDetail from "../components/PostDetail";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../app/store";
-import { postsStatus, selectCurrentPost, addPostReaction, fetchPostById } from "..";
+import { AppDispatch } from "../../../app/store";
+import { postsStatus, selectCurrentPost, addPostReaction } from "../index";
+import { useFetchPostById } from "../hooks";
 import { selectUser } from "../../users";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const PostDetailContainer: React.FC = () => {
+export default function PostDetailContainer() {
   const { id } = useParams<{ id: string }>();
   const postId = id as string;
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
   const status = useSelector(postsStatus);
   const post = useSelector(selectCurrentPost);
   const loginUserId = useSelector(selectUser)._id
-
-  useEffect(() => {
-    if (postId) {
-      dispatch(fetchPostById({ postId }));
-    }
-  }, [postId, dispatch]);
+  
+  useFetchPostById(postId)
 
   const handleAddLike = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (!postId) {
@@ -125,5 +120,3 @@ const PostDetailContainer: React.FC = () => {
   );
 
 };
-
-export default PostDetailContainer;

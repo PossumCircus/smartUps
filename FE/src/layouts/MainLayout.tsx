@@ -1,24 +1,14 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
-import Header from "../features/home/containers/HeaderContainer";
+import Header from "./Header/HeaderContainer";
 import { Box } from "../styles/mui/index";
 
-const MainLayout: React.FC = () => {
+export default function MainLayout(){
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          px: 4,
-          overflow: "auto",
-        }}
-      >
+      <Box component="main" sx={{ flexGrow: 1, px: 4, overflow: "auto", }}      >
         <Outlet />
       </Box>
     </div>
   );
 };
-
-export default MainLayout;
