@@ -1,9 +1,9 @@
 import React from "react";
 import { ShareLinkButton } from "./index";
 import { PostDataType, PostsStateType } from "../../../types/postsType";
-import { krTimeConvert } from "../../../utils";
+import { postTimeConverter } from "../../../utils";
 import { CommentsSection, CommentsSubmitForm } from "./index";
-import { Edit as EditIcon, Delete as DeleteIcon, ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon, Person as PersonIcon, Visibility, Comment } from '@mui/icons-material';
+import { Edit as EditIcon, Delete as DeleteIcon, ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon, Person as PersonIcon, VisibilityOutlined as ViewIcon, ChatBubbleOutline as CommentIcon, ThumbUpOffAlt as LikeIcon } from '@mui/icons-material';
 import { Box, Container, Paper, Typography, Avatar, Divider, IconButton, Chip, Tooltip } from '@mui/material';
 
 interface PostDetailProps {
@@ -32,9 +32,9 @@ export default function PostDetail({
     return <div>Post not found</div>;
   }
   if (isLoading === "succeeded" && post) {
-    const postCreatedAt = krTimeConvert(post.createdAt);
 
-    // content 다시 parse하여 text부분만 추출
+    const postCreatedAt = postTimeConverter(post.createdAt)
+
     const parsedContent = JSON.parse(post.content);
     const textContent = parsedContent.map((paragraph: any, index: number) => (
       <Typography key={index} paragraph>
@@ -67,10 +67,9 @@ export default function PostDetail({
                   {post.title}
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Visibility sx={{ fontSize: '1.5rem' }} />
-                  <Typography component="span">{post.viewsCount}</Typography>
-                  <Comment sx={{ fontSize: '1.5rem' }} />
-                  <Typography component="span">{post.commentsCount}</Typography>
+                  <ViewIcon sx={{ fontSize: '1.5rem' }} /><Typography component="span">{post.viewsCount}</Typography>
+                  <CommentIcon sx={{ fontSize: '1.5rem' }} /><Typography component="span">{post.commentsCount}</Typography>
+                  <LikeIcon /><Typography component="span">{post.likes.length}</Typography>
                 </Box>
               </Box>
               <Divider sx={{ my: 2 }} />

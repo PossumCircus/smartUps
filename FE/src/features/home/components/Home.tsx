@@ -1,19 +1,12 @@
-import MainContentsSection from "./MainContentsSection/MainContentSection";
 import LeftAsideSection from "./LeftAsideSection/LeftAsideSection";
 import RightAsideSection from "./RightAsideSection/RightAsideSection";
-import { PostDataType } from "../../../types/postsType";
+import MainContentsSection from "./MainContentsSection/MainContentSection";
 
-interface HomeProps {
-  posts: PostDataType[];
-  isLoading: boolean;
-  handleNavigateToPost: (postId: string) => void;
-}
-
-export default function Home({ posts, isLoading, handleNavigateToPost }: HomeProps) {
+export default function HomeCopy() {
   return (
     <div className="flex mx-auto mt-4 w-full max-w-[1280px] px-4 gap-3">
       <LeftAsideSection />
-      <MainContentsSection posts={posts} isLoading={isLoading} handleNavigateToPost={handleNavigateToPost} />
+      <MainContentsSection />
       <RightAsideSection />
     </div>
   );

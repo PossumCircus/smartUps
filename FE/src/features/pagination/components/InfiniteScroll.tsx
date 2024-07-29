@@ -1,82 +1,83 @@
-import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { krTimeConvert } from "../../../utils";
-import { fetchInfiniteScrollPosts, increaseViewsCount } from "../../posts/postsAsyncThunks";
-import { useDispatch } from "react-redux";
-import useInfiniteScroll from "../hooks/useInfiniteScroll";
-import { AppDispatch } from "../../../app/store";
-import { PostDataType, PaginatedPostsResponseDataType } from "../../../types/postsType";
+import { PostDataType } from "../../../types/postsType";
+import { Typography, Box, Paper } from "@mui/material";
+import { Person as PersonIcon, ThumbUpOffAlt as LikeIcon, ChatBubbleOutline as CommentIcon, VisibilityOutlined as ViewIcon } from "@mui/icons-material";
+import { formatDistanceToNow, parseISO } from "date-fns"
+import { ko } from 'date-fns/locale';
 
-const POST_SIZE = 150; // post div card height
-const PAGE_SIZE =
-  (typeof visualViewport === "undefined" || visualViewport === null
-    ? 100
-    : Math.ceil(visualViewport.width / POST_SIZE)) * 10;
+type InfiniteScrollCopyPropsType = {
+  posts: PostDataType[]
+  clickPostHandler: (postId: string) => void
+  isFetching: boolean
+}
 
-export default function InfiniteScroll() {
-  const [page, setPage] = useState(0);
-  const [posts, setPosts] = useState<PostDataType[]>([]);
-  const [hasNextPage, setNextPage] = useState(true);
-  const dispatch: AppDispatch = useDispatch();
-
-  const mockingFetchPosts = useCallback(async () => {
-    try {
-      const result = await dispatch(
-        fetchInfiniteScrollPosts({
-          params: { page, size: PAGE_SIZE },
-        })
-      ).unwrap();
-
-      setPosts((prevPosts) => [...prevPosts, ...result.contents]);
-      setPage(result.pageNumber + 1);
-      setNextPage(!result.isLastPage);
-      setIsFetching(false);
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-    }
-  }, [dispatch, page]);
-
-  const [isFetching, setIsFetching] = useInfiniteScroll(mockingFetchPosts, hasNextPage);
-
-  const clickPostHandler = (postId: string): void => {
-    dispatch(increaseViewsCount({ postId }));
-  };
+export default function InfiniteScroll({
+  posts,
+  clickPostHandler,
+  isFetching
+}: InfiniteScrollCopyPropsType) {
 
   return (
-    <div className="border-2">
-      {posts.map((post, index) => {
+    <>
+      {posts.map((post) => {
+        const date = parseISO(post.createdAt)
+        const timeAgo = formatDistanceToNow(date, { locale: ko });
         return (
-          <div key={post._id} className="flex flex-col justify-between p-2">
-            <div className="bg-sky-400 flex h-1/4 space-x-2">
-              <img
-                src={"/img/ping.png" || `data:image/jpeg;base64,${post.author.profile.avatar}`}
-                className="max-w-6 inline"
-              />
-              <p className="inline">
-                post.author.username 여기에
-                {/* {post.author.username} */}
-              </p>
-            </div>
-            <div className="h-1/2 flex justify-between my-1 truncate">
-              <Link to={`posts/${post._id}`} onClick={() => clickPostHandler(post._id)}>
-                <h3>{post.title}</h3>
-              </Link>
-              <p>
-                👁️‍🗨️ {post.viewsCount} 📄 {post.commentsCount} 👍 {post.likes.length > 1 ? post.likes.length : 0}
-              </p>
-            </div>
-            <div className="bg-pink-200 flex justify-between h-1/4">
-              <p>
-                {post.hashtags.map((v, i) => (
-                  <span key={i}>{" #" + v}</span>
-                ))}
-              </p>
-              <p className="sm:hidden">{krTimeConvert(post.createdAt)}</p>
-            </div>
-          </div>
-        );
+          <Box display="flex" justifyContent="center" >
+            <Paper elevation={3} sx={{ p: 2, borderRadius: 2, width: "100%" }}>
+              <Box className="postCard:top:authorInfo" display="flex" justifyContent="space-between" flexDirection={{ xs: "column", sm: "row" }} mb={2}>
+                <Box display="flex" alignItems="center" gap={1} justifyContent="space-between">
+                  {<PersonIcon /> || <img
+                    src={`data:image/jpeg;base64,${post.author.profile.avatar}`}
+                    className="max-w-6 inline"
+                    alt="사진"
+                  />}
+                  <Typography>{post.author.username}</Typography>
+                </Box>
+                <Box>
+                  <Typography>
+                    {`${timeAgo} 전`}
+                  </Typography>
+                </Box>
+              </Box>
+              <Box className="postCard:middle:postInfo" display="flex" justifyContent="space-between" alignItems="center" mb={1}>
+                <Typography variant="h6" sx={{ "&:hover": { opacity: 0.7, }, }}              >
+                  <Link to={`posts/${post._id}`} onClick={() => clickPostHandler(post._id)}>
+                    <h3>{post.title}</h3>
+                  </Link>
+                </Typography>
+
+                <Box display="flex" alignItems="center" gap={1}>
+                  <ViewIcon sx={{ strokeWidth : 5}} /><Typography>{post.viewsCount}</Typography>
+                  <CommentIcon /><Typography>{post.comments.length}</Typography>
+                  <LikeIcon /><Typography>{post.likes.length}</Typography>
+                </Box>
+              </Box>
+              <Box className="postCard:divider" width="100%" height="1px" bgcolor="#bdbdbd" mt={1} mb={1}></Box>
+              <Box className="postCard:bottom:hashtags" display="flex" justifyContent="space-between" >
+                <Box display="flex" gap={1}>
+                  {post.hashtags.map((hashtag, index) => (
+                    <Typography key={index} variant="body2" component="span"
+                      sx={{
+                        bgcolor: "skyblue",
+                        borderRadius: 3,
+                        px: 1,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: 25,
+                      }}
+                    >
+                      #{hashtag}
+                    </Typography>
+                  ))}
+                </Box>
+              </Box>
+            </Paper>
+          </Box>
+        )
       })}
       {isFetching && <div> 로딩중</div>}
-    </div>
-  );
+    </>
+  )
 };

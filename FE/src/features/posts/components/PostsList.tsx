@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { krTimeConvert } from "../../../utils";
+import { postTimeConverter } from "../../../utils";
 import { PostDataType } from "../../../types/postsType";
-import PersonIcon from "@mui/icons-material/Person";
 import { Box, Typography, IconButton } from "@mui/material";
+import { Person as PersonIcon, ThumbUpOffAlt as LikeIcon, ChatBubbleOutline as CommentIcon, VisibilityOutlined as ViewIcon } from "@mui/icons-material";
 
 interface PostsListProps {
   topic: string;
@@ -27,6 +27,7 @@ export default function PostsList({
   isPostsValid,
   clickPostHandler,
 }: PostsListProps) {
+
   return (
     <>
       {status === "loading" && <div>Loading...</div>}
@@ -36,6 +37,8 @@ export default function PostsList({
       {status === "succeeded" &&
         isPostsValid &&
         (!topic ? posts : postsByTopic).map((post, index) => {
+          const postCreatedAt = postTimeConverter(post.createdAt)
+
           if (index + 1 <= itemCountPerPage * currentPage && index + 1 > itemCountPerPage * (currentPage - 1)) {
             return (
               <Box
@@ -48,7 +51,7 @@ export default function PostsList({
                     <Typography>{post.author.username}</Typography>
                   </Box>
                   <Typography sx={{ display: { xs: "none", sm: "inline" } }}>
-                    {krTimeConvert(post.createdAt)}
+                    {postCreatedAt}
                   </Typography>
                 </Box>
                 <Box
@@ -80,9 +83,11 @@ export default function PostsList({
                       {post.title}
                     </Typography>
                   </Link>
-                  <Typography>
-                    👁️‍🗨️ {post.viewsCount} 📄 {post.comments.length} 👍 {post.likes.length > 1 ? post.likes.length : 0}
-                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <ViewIcon sx={{ fontSize: '1.5rem' }} /><Typography component="span">{post.viewsCount}</Typography>
+                    <CommentIcon sx={{ fontSize: '1.5rem' }} /><Typography component="span">{post.commentsCount}</Typography>
+                    <LikeIcon /><Typography component="span">{post.likes.length}</Typography>
+                  </Box>
                 </Box>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   {post.hashtags && post.hashtags.length > 0 ? (

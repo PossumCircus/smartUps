@@ -1,6 +1,5 @@
-import { NotificationsList } from ".."
+import NotificationsListContainer from "../containers/NotificationsListContainer"
+
 export default function NotificationsPage() {
-    return (
-        <NotificationsList />
-    )
+    return <NotificationsListContainer />
 }

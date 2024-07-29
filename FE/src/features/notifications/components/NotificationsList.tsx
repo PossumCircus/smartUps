@@ -1,55 +1,41 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from "react-redux"
 import { formatDistanceToNow, parseISO } from "date-fns"
-import {
-  selectAllNotifications,
-  notificationsStatus,
-  notificationsError,
-  fetchNotifications,
-  setReadNotification,
-  deleteNotification
-} from "../index"
-import { selectUser } from "../../users/"
-import { AppDispatch } from "../../../app/store"
+import { ko } from 'date-fns/locale';
 import { Check as CheckIcon, ArrowForward as ArrowForwardIcon, Clear as ClearIcon, Refresh as RefreshIcon } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
-import { useNavigate } from "react-router-dom"
-const NotificationsList: React.FC<any> = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const notifications = useSelector(selectAllNotifications)
-  const statusState = useSelector(notificationsStatus)
-  const errorState = useSelector(notificationsError)
-  const loginUserId = useSelector(selectUser)._id
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (statusState === 'idle') {
-      handleRefreshNotification();
-    }
-  }, [statusState, dispatch])
+import { NotificationDataType } from "../../../types/notificationsType";
+
+type NotificationsListProps = {
+  notifications: NotificationDataType[]
+  statusState: any
+  errorState: string | null
+  handleRefreshNotification: () => void
+  handleNotificationRead: (notificationId: string) => void
+  handleNotificationRemove: (notificationId: string) => void
+  handleNavigateToLink: (url: string) => void
+}
+
+export default function NotificationsList({
+  notifications,
+  statusState,
+  errorState,
+  handleRefreshNotification,
+  handleNotificationRead,
+  handleNotificationRemove,
+  handleNavigateToLink
+}: NotificationsListProps) {
 
   const NotificationTypeRender = (type: string) => {
     if (type === 'comment_new_reply') return '댓글에 새로운 답글이 달렸습니다.'
     if (type === 'post_new_comment') return '게시글에 새로운 댓글이 달렸습니다.'
     if (type === 'post_like') return '게시글에 좋아요가 추가되었습니다.'
   }
-  const handleRefreshNotification = () => {
-    dispatch(fetchNotifications({ loginUserId }))
-  }
-  const handleNotificationRead = (notificationId: string) => {
-    dispatch(setReadNotification({ notificationId }))
-  }
-  const handleNotificationRemove = (notificationId: string) => {
-    dispatch(deleteNotification(notificationId))
-    window.location.reload()
-  }
-  const handleNavigateToLink = (url: string) => {
-    navigate(url);
-  }
+
   const NotificationsRender = () => {
     return (
       notifications.map((notification, index) => {
         const date = parseISO(notification.createdAt)
-        const timeAgo = formatDistanceToNow(date)
+        const timeAgo = formatDistanceToNow(date, { locale: ko });
+
         return (
           <div key={`${notification._id}-${index}`} className={`notification w-[27%] ${notification.isRead ? 'bg-white' : 'bg-gradient-to-r from-sky-100'} border-2 my-1 p-1`}>
             <div>
@@ -74,7 +60,7 @@ const NotificationsList: React.FC<any> = () => {
                 <b>by {notification.sender ? notification.sender.username : "Unknown User"}</b>
               </div>
               <div title={notification.createdAt}>
-                <i>{timeAgo} ago</i>
+                <i>{`${timeAgo}전`}</i>
               </div>
             </div>
           </div>
@@ -82,6 +68,7 @@ const NotificationsList: React.FC<any> = () => {
       })
     )
   }
+  if (errorState) return <>알림을 불러오는데 실패하였습니다.</>
   if (notifications.length < 1) return <>새로운 알림이 없습니다.</>
   if (statusState === 'loading') return <>now loading..</>
   if (statusState === 'succeeded') {
@@ -95,5 +82,3 @@ const NotificationsList: React.FC<any> = () => {
     )
   }
 }
-
-export default NotificationsList
