@@ -24,9 +24,9 @@ export default function PostsTopicNav({ navPaths, topic, handleWriteClick }: Pos
     setAnchorEl(null);
   };
   return (
-    <Box>
+    <Box className="postsTopicNav:WriteAndNav">
       <Box display="flex" pt={4} justifyContent="space-between" alignItems="center" fontWeight="fontWeightBold">
-        <Box flexShrink={0}>
+        <Box className="writeButton" flexShrink={0}>
           <Button
             variant="contained"
             color="primary"
@@ -36,7 +36,7 @@ export default function PostsTopicNav({ navPaths, topic, handleWriteClick }: Pos
             ✏️작성하기
           </Button>
         </Box>
-        <Box display="flex" gap={2} sx={{ gap: { sm: 4 } }}>
+        <Box className="navPaths" display="flex" gap={2} sx={{ gap: { sm: 4 } }}>
           {navPaths &&
             navPaths.map((v, index) => {
               const isActive = topic === v.path.split("=")[1];
@@ -54,8 +54,7 @@ export default function PostsTopicNav({ navPaths, topic, handleWriteClick }: Pos
               );
             })}
         </Box>
-        {/* filter menu below */}
-        <Box position="relative" zIndex="50" display={{ xs: "none", sm: "block" }}>
+        <Box className="filterMenu" position="relative" zIndex="50" display={{ xs: "none", sm: "block" }}>
           <IconButton onClick={handleClick} sx={{ px: 2, py: 1, borderRadius: 0 }}>
             <FilterListIcon style={{ width: "20px", height: "20px" }} />
           </IconButton>

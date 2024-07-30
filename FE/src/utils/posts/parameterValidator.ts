@@ -1,4 +1,4 @@
-import { CategoryOrTopicValidationError } from "./customError";
+import { CategoryOrTopicValidationError } from "../error/customError";
 
 /**
  * Validates category or topic parameter.
@@ -8,7 +8,7 @@ import { CategoryOrTopicValidationError } from "./customError";
  * @returns {void}
  */
 
-export default function parameterValidation(categoryOrTopic: string): void {
+export default function parameterValidator(categoryOrTopic: string): void {
     if (!categoryOrTopic || typeof categoryOrTopic !== "string")
         throw new CategoryOrTopicValidationError("Invalid parameter : 'categoryOrTopic' parameter is not valid");
     if (categoryOrTopic.length < 1)

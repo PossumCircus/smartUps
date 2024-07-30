@@ -1,7 +1,7 @@
-import postTimeConverter from "./postTimeConverter";
-import parameterValidation from "./parameterValidation";
+import postTimeConverter from "./posts/postTimeConverter";
+import parameterValidation from "./posts/parameterValidator";
 import payloadFilter from "./payloadFilter";
-import payloadValidation from "./payloadValidation";
+import payloadValidation from "./posts/payloadValidator";
 import throttle from "./throttle"
 export {
     postTimeConverter,

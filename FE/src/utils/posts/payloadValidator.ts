@@ -1,5 +1,5 @@
-import { PayloadValidationError } from "./customError";
-import { Post } from "../types/commonType";
+import { PayloadValidationError } from "../error/customError";
+import { PostDataType } from "../../types/postsType";
 
 /**
  * Validates the payload data.
@@ -9,7 +9,7 @@ import { Post } from "../types/commonType";
  * @returns {void}
  */
 
-export default function payloadValidation(data : Post[] | Post): void {
+export default function payloadValidator(data : PostDataType[] | PostDataType): void {
   if (!data)
     throw new PayloadValidationError("No field : 'payload' property is missing(empty)");
   if (!Array.isArray(data))

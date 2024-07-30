@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { payloadFilter } from '../../../utils'
 import { PostDataType } from '../../../types/postsType'
 
@@ -15,7 +15,6 @@ export default function usePostsRenderByTopic(posts: PostDataType[], topic: stri
     const [activeTopic, setActiveTopic] = useState<string>('')
 
     useEffect(() => {
-        // if topic exists, active topic is set.
         if (topic) {
             setActiveTopic(topic)
         }

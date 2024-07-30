@@ -3,6 +3,7 @@
  *
  * @extends {Error}
  */
+
 export class PayloadValidationError extends Error {
     /**
    * Creates an instance of PayloadValidationError.
@@ -11,7 +12,7 @@ export class PayloadValidationError extends Error {
    */
     constructor(message: string) {
         super(message);
-        this.name = "ValidationError";
+        this.name = "PayloadValidationError";
         Object.setPrototypeOf(this, PayloadValidationError.prototype); // Ensure the correct prototype chain
     }
 }
