@@ -1,19 +1,19 @@
+import { NotificationsStateType } from "./notificationsType"
 export interface UserDataType {
   _id: string;
   username: string;
   email: string;
   themeMode: string;
   // fullName: string;
-  // password: string;
   // googleId: string;
   role: "user" | "admin";
-  // newNotificationsCount: number;
+  newNotificationsCount: number;
   profile: ProfileDataType;
+  notificationsState: NotificationsStateType;
 }
 
-export interface UsersStateType {
-  entities: UserDataType[];
-  loginUser: UserDataType | null;
+export interface UsersInitialStateDataType {
+  entity: UserDataType;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
@@ -23,14 +23,13 @@ export interface ProfileDataType {
   location: string;
   avatar: string;
   desiredJobTypes: string;
-  experience : string;
+  experience: string;
 }
 
 export interface UserLoginDataType extends UserDataType {
   passwordResetToken?: string;
   passwordResetExpires?: Date;
 }
-
 
 // Auth
 export interface SignUpFormDataType {
@@ -39,8 +38,7 @@ export interface SignUpFormDataType {
   password_confirm: string;
   email: string;
   username: string;
-  // job: string;
-  // region: string;아직안씀
+  // region: string;
 }
 
 export interface LoginFormDataType {

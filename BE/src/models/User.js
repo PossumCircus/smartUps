@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
 const crypto = require("crypto");
-
+const { notificationStateSchema } = require('./Notification')
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -46,7 +46,19 @@ const userSchema = new mongoose.Schema({
     enum: ["light", "dark"],
     default: "light",
   },
-  newNotificationsCount: { type: Number, default: 0 },
+  notifications: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Notification',
+    }
+  ],
+  notificationsCount: {
+    type: Number,
+    default: 0
+  },
+  notificationAlarmState: {
+    type: notificationStateSchema
+  }
 });
 
 // Password hashing before saving a new user or updating the password

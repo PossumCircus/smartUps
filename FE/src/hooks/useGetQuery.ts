@@ -6,6 +6,7 @@ import { useSearchParams } from "react-router-dom";
  * @param {string} queryString - The name of the query parameter to retrieve.
  * @returns {string | null} - An string containing the value of the query parameter, or null if it does not exist.
  */
+
 export default function useGetQuery(queryString: string): string | null {
     const [searchParams] = useSearchParams();
     const query = searchParams.get(queryString);

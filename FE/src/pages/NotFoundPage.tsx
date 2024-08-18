@@ -9,7 +9,7 @@ const NotFoundPage: React.FC = () => {
             navigate("/");
         }, 2000);
 
-        return () => clearTimeout(timeoutId); // Clean up the timeout on component unmount
+        return () => clearTimeout(timeoutId);
     }, [navigate]);
 
     return (

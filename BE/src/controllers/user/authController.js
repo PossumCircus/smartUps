@@ -4,7 +4,7 @@ const crypto = require("crypto"); // Built-in Node.js module for generating toke
 const { sendEmail } = require("../../utils/emailService");
 const { generateAuthToken } = require("../../middleware/authMiddleware");
 const AppError = require("../../utils/appError"); // Assuming you have a custom error class
-// 로그아웃추가필요
+
 // Function 1: Signup
 exports.signup = async (req, res, next) => {
   try {
@@ -37,16 +37,11 @@ exports.login = async (req, res, next) => {
       return next(new AppError("Incorrect email or password", 401)); // Unauthorized error
     }
 
-    const token = generateAuthToken(user._id);
-    const userResponse = user.toObject();
-    delete userResponse.password;
-    delete userResponse.newNotificationsCount;
-    delete userResponse.fullName;
-    console.log('userResponse', userResponse);
-    res.json({
-      user: userResponse,
-      token,
-    });
+    // const token = generateAuthToken(user._id);
+    const userData = user.toObject();
+    delete userData.password;
+    delete userData.fullName;
+    res.status(200).json(userData);
   } catch (error) {
     next(error);
   }
@@ -63,7 +58,6 @@ exports.getMe = async (req, res, next) => {
 };
 
 // Function 4: Check Email Validation
-//이메일중복확인유효성검사 -김세준 추가-
 exports.checkEmail = async (req, res, next) => {
   try {
     const existingUser = await User.findOne({ email: req.body.email });
@@ -79,7 +73,6 @@ exports.checkEmail = async (req, res, next) => {
 };
 
 // Function 5: Check UserName Validation
-//닉네임중복확인유효성검사 -김세준 추가-
 exports.checkUserName = async (req, res, next) => {
   try {
     const existingUser = await User.findOne({ username: req.body.username });
@@ -96,66 +89,66 @@ exports.checkUserName = async (req, res, next) => {
 
 // Function 6: Forgot Password
 exports.forgotPassword = async (req, res, next) => {
-    try {
-      const user = await User.findOne({ email: req.body.email });
-      if (!user) {
-        return next(new AppError("No user found with that email", 404));
-      }
-  
-      // Generate reset token
-      const resetToken = user.createPasswordResetToken();
-      await user.save({ validateBeforeSave: false }); // Skip validation to save only the token
-  
-      // Create reset URL
-      const resetURL = `${req.protocol}://${req.get("host")}/api/v1/auth/reset-password/${resetToken}`; // Adjust if your setup is different
-  
-      // Send email
-      const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please click on this link to reset your password: ${resetURL}.\nIf you did not request this, please ignore this email and your password will remain unchanged.`;
-  
-      try {
-        await sendEmail({
-          email: user.email,
-          subject: "Password Reset Token",
-          message,
-        });
-  
-        res.status(200).json({ message: "Token sent to email" });
-      } catch (error) {
-        user.passwordResetToken = undefined;
-        user.passwordResetExpires = undefined;
-        await user.save({ validateBeforeSave: false });
-  
-        return next(new AppError("Unable to send password reset email. Please try again", 500));
-      }
-    } catch (error) {
-      next(error);
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return next(new AppError("No user found with that email", 404));
     }
-  };
-  
-  // Function 7: Reset Password
-  exports.resetPassword = async (req, res, next) => {
+
+    // Generate reset token
+    const resetToken = user.createPasswordResetToken();
+    await user.save({ validateBeforeSave: false }); // Skip validation to save only the token
+
+    // Create reset URL
+    const resetURL = `${req.protocol}://${req.get("host")}/api/v1/auth/reset-password/${resetToken}`; // Adjust if your setup is different
+
+    // Send email
+    const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please click on this link to reset your password: ${resetURL}.\nIf you did not request this, please ignore this email and your password will remain unchanged.`;
+
     try {
-      // Get token from URL, hash it
-      const hashedToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
-  
-      // Find user and check if the token is valid
-      const user = await User.findOne({
-        passwordResetToken: hashedToken,
-        passwordResetExpires: { $gt: Date.now() },
+      await sendEmail({
+        email: user.email,
+        subject: "Password Reset Token",
+        message,
       });
-  
-      if (!user) {
-        return next(new AppError("Token is invalid or has expired", 400));
-      }
-  
-      // Change password, clear reset fields
-      user.password = req.body.password;
+
+      res.status(200).json({ message: "Token sent to email" });
+    } catch (error) {
       user.passwordResetToken = undefined;
       user.passwordResetExpires = undefined;
-      await user.save();
-  
-      res.status(200).json({ message: "Password updated successfully" });
-    } catch (error) {
-      next(error);
+      await user.save({ validateBeforeSave: false });
+
+      return next(new AppError("Unable to send password reset email. Please try again", 500));
     }
-  };
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Function 7: Reset Password
+exports.resetPassword = async (req, res, next) => {
+  try {
+    // Get token from URL, hash it
+    const hashedToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
+
+    // Find user and check if the token is valid
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return next(new AppError("Token is invalid or has expired", 400));
+    }
+
+    // Change password, clear reset fields
+    user.password = req.body.password;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
