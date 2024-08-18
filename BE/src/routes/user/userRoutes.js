@@ -4,8 +4,4 @@ const userController = require("../../controllers/user/userController");
 
 router.patch("/ChangeThemeMode/:id", userController.ChangeThemeMode);
 
-
-
-
-
 module.exports = router;

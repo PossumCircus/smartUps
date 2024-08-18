@@ -1,32 +1,30 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-// Layouts
 import MainLayout from "./layouts/MainLayout";
 // Pages
 import {
   HomePage,
-  // NotFoundPage,
+  NotFoundPage,
   CommunityPostsPage,
   PostDetailPage,
   EditPage,
   AuthPage,
   UserProfilePage,
-  UserProfileEditPage,
-  OtherUserProfilePage,
   NotificationsPage,
   EditPostPage,
 } from "./pages";
 
 import routes from "./constants/routes";
-// Hooks
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { useSelector } from "react-redux";
+import { selectTheme } from "./features/theme/themeSelector";
+import { selectUser } from "./features/users";
 
 const App: React.FC = () => {
-  const themeMode = useSelector((state: any) => state.theme.themeMode);
-  console.log("redux thememode", themeMode);
+  const themeMode = useSelector(selectTheme);
+  const loginUserId: string | undefined = useSelector(selectUser)?._id
 
   const theme = createTheme({
     palette: {
@@ -49,11 +47,9 @@ const App: React.FC = () => {
             <Route path={routes.postDetail} element={<PostDetailPage />} />
             <Route path={routes.edit} element={<EditPage />} />
             <Route path="edit/post/:id" element={<EditPostPage />} />
-            {/* <Route path="*" element={<NotFoundPage />} /> */}
-            <Route path={routes.userProfile} element={<UserProfilePage />} />
-            <Route path={routes.userProfileEdit} element={<UserProfileEditPage />} />
-            <Route path={routes.notifications} element={<NotificationsPage />} />
-            <Route path={routes.otherUserProfile} element={<OtherUserProfilePage />} />
+            {loginUserId && <Route path={routes.userProfile} element={<UserProfilePage />} />}
+            {loginUserId && <Route path={routes.notifications} element={<NotificationsPage />} />}
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
           <Route path={routes.auth} element={<AuthPage />} />
         </Routes>

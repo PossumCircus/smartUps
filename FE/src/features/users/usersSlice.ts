@@ -1,57 +1,33 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserDataType, UsersStateType } from "../../types/usersType";
-import { fetchUsers, fetchUserProfile } from "./usersAsyncThunks";
+import { UserDataType, UsersInitialStateDataType } from "../../types/usersType";
+import { userLogin } from "./usersAsyncThunks";
 
-const initialState: UsersStateType = {
-  entities: [] as UserDataType[],
-  loginUser: null,
+const initialState: UsersInitialStateDataType = {
+  entity: {} as UserDataType,
   status: "idle",
-  error: null as string | null,
+  error: null
 };
 
 export const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    setUser(state, action: PayloadAction<UserDataType>) {
-      const userIndex = state.entities.findIndex((user) => user._id === action.payload._id);
-      if (userIndex >= 0) {
-        // Update existing user
-        state.entities[userIndex] = action.payload;
-      } else {
-        // Add new user
-        state.entities.push(action.payload);
-      }
-    },
-    clearUser() {
+    logOut() {
       return initialState;
     },
   },
   extraReducers: (builder) => {
-    //fetchUsers
+    //userLogin
     builder
-      .addCase(fetchUsers.pending, (state) => {
+      .addCase(userLogin.pending, (state) => {
         state.status = "loading";
         state.error = null;
       })
-      .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<UserDataType[]>) => {
-        state.entities = action.payload;
+      .addCase(userLogin.fulfilled, (state, action: PayloadAction<UserDataType>) => {
+        state.status = "succeeded"
+        state.entity = action.payload;
       })
-      .addCase(fetchUsers.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message || null;
-      });
-    //fetchUserProfile
-    builder
-      .addCase(fetchUserProfile.pending, (state, action) => {
-        state.status = "loading";
-        state.error = null;
-      })
-      .addCase(fetchUserProfile.fulfilled, (state, action: PayloadAction<UserDataType>) => {
-        state.status = "succeeded";
-        state.loginUser = action.payload;
-      })
-      .addCase(fetchUserProfile.rejected, (state, action) => {
+      .addCase(userLogin.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || null;
       });
@@ -59,4 +35,4 @@ export const usersSlice = createSlice({
 });
 
 export default usersSlice.reducer;
-export const { setUser, clearUser } = usersSlice.actions;
+export const { logOut } = usersSlice.actions;

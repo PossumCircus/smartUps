@@ -41,23 +41,3 @@ exports.updateMyProfile = async (req, res, next) => {
         next(error);
     }
 }
-
-// exports.deleteMyProfile = async( req, res, next) =>{
-//     try {
-        
-//     } catch (error) {
-        
-//     }
-// }
-
-// exports.getOthersProfile = async (req, res, next) => {
-//     try {
-//         const user = await User.findById(req.params.id).select(/* ...fields to expose publicly ... */);
-//         // ... (rest of the implementation)
-//     } catch (error) {
-//         next(error);
-//     }
-// }
-
-// (If you move the search functionality here):
-// exports.searchUsers = /* ... Adapt your searchUsers function ... */
