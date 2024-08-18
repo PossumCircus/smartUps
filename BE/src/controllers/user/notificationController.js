@@ -3,7 +3,6 @@ const { Notification } = require('../../models/Notification');
 const User = require('../../models/User');
 const { Error } = require('mongoose');
 
-// Function 1 : get notifications
 exports.getNotifications = async (req, res, next) => {
     try {
         const userId = req.params.loginUserId
@@ -18,7 +17,6 @@ exports.getNotifications = async (req, res, next) => {
     }
 }
 
-// Utility function to send a notification to a user and add notification to Notification db
 exports.createNotification = async (req, res, next) => {
     try {
         const creationData = req.body
@@ -28,8 +26,7 @@ exports.createNotification = async (req, res, next) => {
         const senderId = creationData.sender
 
         const newNotification = await Notification.create(creationData);
-        console.log(newNotification)
-        // Optional: If you want a new notification indicator on the User 
+
         await User.findByIdAndUpdate(recipientId, { $inc: { newNotificationsCount: 1 } });
     } catch (error) {
         console.log(error)
@@ -48,7 +45,6 @@ exports.setReadNotification = async (req, res, next) => {
 
         res.status(200).json(readNotification);
     } catch (error) {
-        console.log(error)
         next(error);
     }
 }
@@ -65,7 +61,6 @@ exports.deleteNotification = async (req, res, next) => {
             }
         })
     } catch (error) {
-        console.log(error)
         next(error);
     }
 }
@@ -95,7 +90,6 @@ exports.setNotificationsState = async (req, res, next) => {
             }
         })
     } catch (error) {
-        console.log(error)
         next(error);
     }
 }

@@ -10,8 +10,6 @@ router.post("/checkEmail", authController.checkEmail);
 router.post("/checkUserName", authController.checkUserName);
 
 router.get("/getMe", authController.getMe)
-// router.post("/forgot-password" /* ... */);
-// router.patch("/reset-password/:token" /* ... */);
 
 router.get("/google", googleAuth.authenticateGoogle());
 router.get("/google/callback", googleAuth.authenticateGoogle(), async (req, res, next) => {

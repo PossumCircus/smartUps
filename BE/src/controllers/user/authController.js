@@ -58,7 +58,6 @@ exports.getMe = async (req, res, next) => {
 };
 
 // Function 4: Check Email Validation
-//이메일중복확인유효성검사 -김세준 추가-
 exports.checkEmail = async (req, res, next) => {
   try {
     const existingUser = await User.findOne({ email: req.body.email });
