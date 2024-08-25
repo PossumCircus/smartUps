@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Provider, useDispatch } from "react-redux";
+import { Provider} from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./app/store";
 import { fetchPosts } from "./features/posts/postsAsyncThunks";
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       { path: "auth", element: <AuthPage /> },
       { path: "me", element: <UserProfilePage /> },
       { path: "me/notifications", element: <NotificationsPage /> },
-      // { path: "*", element: <NotFoundPage /> },
+      { path: "*", element: <NotFoundPage /> },
     ],
   },
 ]);
