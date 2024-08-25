@@ -1,4 +1,4 @@
-import { Paper, Typography, Box } from "../../../styles/mui/index";
+import { Paper, Typography } from "../../../styles/mui/index";
 
 export default function Banner({ category, categoryDescription }: { category: string; categoryDescription: string }) {
   return (

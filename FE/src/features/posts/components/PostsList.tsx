@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { postTimeConverter } from "../../../utils";
 import { PostDataType } from "../../../types/postsType";
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Person as PersonIcon, ThumbUpOffAlt as LikeIcon, ChatBubbleOutline as CommentIcon, VisibilityOutlined as ViewIcon } from "@mui/icons-material";
 
 interface PostsListProps {
