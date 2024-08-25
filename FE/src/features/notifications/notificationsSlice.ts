@@ -20,8 +20,8 @@ const notificationsSlice = createSlice({
     builder
       .addCase(fetchNotifications.fulfilled, (state, action: PayloadAction<NotificationDataType[]>) => {
         console.log('fulfilled', action.payload)
-        const existingIds = new Set(state.entities.map(notification => notification._id));
-        const newNotifications = action.payload.filter(notification => !existingIds.has(notification._id));
+        const existingIds = new Set(state.entities?.map(notification => notification._id));
+        const newNotifications = action.payload?.filter(notification => !existingIds.has(notification._id));
         state.entities = state.entities.concat(newNotifications);
         state.status = 'succeeded'
       })

@@ -8,12 +8,7 @@ import { AppDispatch, RootState } from "../../../app/store";
 import { PostDataType } from "../../../types/postsType";
 import { selectSinglePostById } from "../../posts/postsSelectors";
 import { fetchPostById } from "../../posts/postsAsyncThunks";
-import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-
-type jwtType = {
-  id: string;
-};
 
 const initialValue: Descendant[] = [
   {

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ButtonGroup, Button, Avatar } from "@mui/material";
+import React from "react";
+import { ButtonGroup, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 
